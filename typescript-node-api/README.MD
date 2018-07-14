@@ -4,3 +4,5 @@ npm install -g gulp@3.9.1
 gulp scripts 
 npm start  
 
+* Run single file
+    * npm test -- --grep admin
