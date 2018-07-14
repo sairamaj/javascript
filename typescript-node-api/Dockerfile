@@ -1,7 +1,5 @@
 FROM node:9-alpine
-
 COPY ./ /api/   
-RUN cd /api 
-RUN npm install
+RUN cd /api && npm install
 EXPOSE 80
-CMD ["npm", "start"]
+CMD ["node", "/api/dist/indes.js"]
