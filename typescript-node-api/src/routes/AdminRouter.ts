@@ -1,6 +1,6 @@
 import {Router, Request, Response, NextFunction} from 'express';
 import { HostManager } from '../HostManager';
-const Hosts = require('../hosts')
+
 
 export class AdminRouter {
   router: Router

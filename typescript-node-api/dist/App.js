@@ -4,6 +4,7 @@ const express = require("express");
 const logger = require("morgan");
 const bodyParser = require("body-parser");
 const AdminRouter_1 = require("./routes/AdminRouter");
+const HostRouter_1 = require("./routes/HostRouter");
 // Creates and configures an ExpressJS web server.
 class App {
     //Run configuration methods on the Express instance.
@@ -24,8 +25,8 @@ class App {
          * working so far. This function will change when we start to add more
          * API endpoints */
         let router = express.Router();
-        this.express.use('/', router);
         this.express.use('/api/v1/admin/hosts', AdminRouter_1.default);
+        this.express.use('/*', HostRouter_1.default);
     }
 }
 exports.default = new App().express;

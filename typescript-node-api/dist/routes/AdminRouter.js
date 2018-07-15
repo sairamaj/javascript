@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const HostManager_1 = require("../HostManager");
-const Hosts = require('../hosts');
 class AdminRouter {
     /**
      * Initialize the AdminRouter
