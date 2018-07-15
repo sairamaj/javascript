@@ -11,29 +11,29 @@ class AdminRouter {
         this.init();
     }
     /**
-     * GET all Hosts.
+     * GET all services.
      */
     getAll(req, res, next) {
-        res.send(new InMemoryProvider_1.InMemoryProvider().getHosts());
+        res.send(new InMemoryProvider_1.InMemoryProvider().getServices());
     }
     /**
-     * GET one host by name
+     * GET one service by name
      */
     getOne(req, res, next) {
         let name = req.params.name;
-        var host = new InMemoryProvider_1.InMemoryProvider().getHost(name);
-        if (host) {
+        var service = new InMemoryProvider_1.InMemoryProvider().getService(name);
+        if (service) {
             res.status(200)
                 .send({
                 message: 'Success',
                 status: res.status,
-                host
+                service
             });
         }
         else {
             res.status(404)
                 .send({
-                message: name + ' host not found.'
+                message: name + ' service not found.'
             });
         }
     }

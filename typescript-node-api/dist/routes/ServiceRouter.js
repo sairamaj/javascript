@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const InMemoryProvider_1 = require("../providers/InMemoryProvider");
-class HostRouter {
+class ServiceRouter {
     /**
      * Initialize the AdminRouter
      */
@@ -11,14 +11,15 @@ class HostRouter {
         this.init();
     }
     /**
-     * POST host
+     * POST service
      */
     handle(req, res, next) {
-        console.log('HostRouter handle:...>' + req.url);
-        console.log('HostRouter handle body:...>' + req.body);
+        console.log('ServiceRouter handle:...>' + req.url);
+        var requestData = Object.keys(req.body)[0];
+        console.log('ServiceRouter handle body:...>' + requestData);
         var parts = req.url.split('/');
-        var hostName = parts[parts.length - 1];
-        var processInfo = new InMemoryProvider_1.InMemoryProvider().getResponse(hostName, 'request_1');
+        var serviceName = parts[parts.length - 1];
+        var processInfo = new InMemoryProvider_1.InMemoryProvider().getResponse(serviceName, requestData);
         if (processInfo) {
             res.status(200).
                 set({ 'content-type': 'text/xml; charset=utf-8' })
@@ -39,9 +40,8 @@ class HostRouter {
         this.router.post('*', this.handle);
     }
 }
-exports.HostRouter = HostRouter;
+exports.ServiceRouter = ServiceRouter;
 // Create the AdminRouter, and export its configured Express.Router
-const hostRoutes = new HostRouter();
-hostRoutes.init();
-exports.default = hostRoutes.router;
-//export default hostRoutes.handle;
+const serviceRoutes = new ServiceRouter();
+serviceRoutes.init();
+exports.default = serviceRoutes.router;

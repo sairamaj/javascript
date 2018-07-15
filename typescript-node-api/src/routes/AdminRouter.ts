@@ -14,30 +14,30 @@ export class AdminRouter {
   }
 
   /**
-   * GET all Hosts.
+   * GET all services.
    */
   public getAll(req: Request, res: Response, next: NextFunction) {
-    res.send(new InMemoryProvider().getHosts());
+    res.send(new InMemoryProvider().getServices());
   }
 
 /**
- * GET one host by name
+ * GET one service by name
  */
 public getOne(req: Request, res: Response, next: NextFunction) {
     let name = req.params.name;
-    var host = new InMemoryProvider().getHost(name)
-    if (host) {
+    var service = new InMemoryProvider().getService(name)
+    if (service) {
       res.status(200)
         .send({
           message: 'Success',
           status: res.status,
-          host
+          service
         });
     }
     else {
       res.status(404)
         .send({
-          message: name + ' host not found.'
+          message: name + ' service not found.'
         });
     }
   }

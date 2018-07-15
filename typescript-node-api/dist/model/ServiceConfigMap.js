@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-class HostConfigMap {
+class ServiceConfigMap {
     constructor(name, matches) {
         this.name = name;
         this.matches = matches;
     }
 }
-exports.HostConfigMap = HostConfigMap;
+exports.ServiceConfigMap = ServiceConfigMap;

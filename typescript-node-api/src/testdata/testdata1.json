@@ -1,43 +1,43 @@
 [{
-        "name": "host1",
+        "name": "service1",
         "config": [{
                 "name": "request_1",
                 "matches": ["request_1"],
-                "response": "host1_response_1"
+                "response": "service1_response_1"
             },
             {
                 "name": "request_2",
                 "matches": ["request_2"],
-                "response": "host1_response_2"
+                "response": "service1_response_2"
             }
 
         ]
     },
     {
-        "name": "host2",
+        "name": "service2",
         "config": [{
                 "name": "request_1",
                 "matches": ["request_1"],
-                "response": "host2_response_1"
+                "response": "service2_response_1"
             },
             {
                 "name": "request_2",
                 "matches": ["request_2"],
-                "response": "host2_response_2"
+                "response": "service2_response_2"
             }
 
         ]
     },
     {
-        "name": "host3"
+        "name": "service3"
     },
     {
-        "name": "host4"
+        "name": "service4"
     },
     {
-        "name": "host5"
+        "name": "service5"
     },
     {
-        "name": "host6"
+        "name": "service6"
     }
 ]

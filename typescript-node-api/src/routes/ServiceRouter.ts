@@ -1,7 +1,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { InMemoryProvider } from '../providers/InMemoryProvider';
 
-export class HostRouter {
+export class ServiceRouter {
     router: Router
 
     /**
@@ -13,15 +13,15 @@ export class HostRouter {
     }
 
     /**
-     * POST host
+     * POST service
      */
     public handle(req: Request, res: Response, next: NextFunction) {
-        console.log('HostRouter handle:...>' + req.url)
+        console.log('ServiceRouter handle:...>' + req.url)
         var requestData = Object.keys(req.body)[0]
-        console.log('HostRouter handle body:...>' + requestData)
+        console.log('ServiceRouter handle body:...>' + requestData)
         var parts = req.url.split('/')
-        var hostName = parts[parts.length - 1]
-        var processInfo = new InMemoryProvider().getResponse(hostName, requestData);
+        var serviceName = parts[parts.length - 1]
+        var processInfo = new InMemoryProvider().getResponse(serviceName, requestData);
         if (processInfo) {
             res.status(200).
                 set({ 'content-type': 'text/xml; charset=utf-8' })
@@ -45,8 +45,8 @@ export class HostRouter {
 }
 
 // Create the AdminRouter, and export its configured Express.Router
-const hostRoutes = new HostRouter();
-hostRoutes.init();
+const serviceRoutes = new ServiceRouter();
+serviceRoutes.init();
 
-export default hostRoutes.router;
-//export default hostRoutes.handle;
+export default serviceRoutes.router;
+

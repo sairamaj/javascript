@@ -3,7 +3,7 @@ import * as express from 'express';
 import * as logger from 'morgan';
 import * as bodyParser from 'body-parser';
 import AdminRouter from './routes/AdminRouter';
-import HostRouter from './routes/HostRouter';
+import ServiceRouter from './routes/ServiceRouter';
 
 // Creates and configures an ExpressJS web server.
 class App {
@@ -27,20 +27,10 @@ class App {
 
   // Configure API endpoints.
   private routes(): void {
-    /* This is just to get up a
-    nd running, and to make sure what we've got is
-     * working so far. This function will change when we start to add more
-     * API endpoints */
     let router = express.Router();
-    this.express.use('/api/v1/admin/hosts', AdminRouter);
-    this.express.all("*", HostRouter)
-    //this.express.use('*', HostRouter);
-    // this.express.use((req, res) => {
-    //   console.log('in default...')
-    //   new HostRouter(req, res, null).handle()
-    // });
+    this.express.use('/api/v1/admin/services', AdminRouter);
+    this.express.all("*", ServiceRouter)
   }
-
 }
 
 export default new App().express;

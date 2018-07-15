@@ -7,10 +7,10 @@ import app from '../src/App';
 chai.use(chaiHttp);
 const expect = chai.expect;
 
-describe('GET api/v1/admin/hosts', () => {
+describe('GET api/v1/admin/services', () => {
 
   it('responds with JSON array', () => {
-    return chai.request(app).get('/api/v1/admin/hosts')
+    return chai.request(app).get('/api/v1/admin/services')
       .then(res => {
         expect(res.status).to.equal(200);
         expect(res).to.be.json;
@@ -19,20 +19,20 @@ describe('GET api/v1/admin/hosts', () => {
       });
   });
 
-  it('should include host1', () => {
-    return chai.request(app).get('/api/v1/admin/hosts')
+  it('should include service1', () => {
+    return chai.request(app).get('/api/v1/admin/services')
       .then(res => {
-        let host1 = res.body.find(host => host.name === 'host1');
-        expect(host1).to.exist;
+        let serivce1 = res.body.find(service => service.name === 'service1');
+        expect(serivce1).to.exist;
       });
   });
 
 });
 
-describe('GET api/v1/admin/hosts/:name', () => {
+describe('GET api/v1/admin/services/:name', () => {
 
   it('responds with single JSON object', () => {
-    return chai.request(app).get('/api/v1/admin/hosts/host1')
+    return chai.request(app).get('/api/v1/admin/services/service1')
       .then(res => {
         expect(res.status).to.equal(200);
         expect(res).to.be.json;
@@ -40,15 +40,15 @@ describe('GET api/v1/admin/hosts/:name', () => {
       });
   });
 
-  it('should return host1', () => {
-    return chai.request(app).get('/api/v1/admin/hosts/host1')
+  it('should return service1', () => {
+    return chai.request(app).get('/api/v1/admin/services/service1')
       .then(res => {
-        expect(res.body.host.name).to.equal('host1');
+        expect(res.body.service.name).to.equal('service1');
       });
   });
 
-  it('should return 404 for not available host', () => {
-    return chai.request(app).get('/api/v1/admin/hosts/na')
+  it('should return 404 for not available service', () => {
+    return chai.request(app).get('/api/v1/admin/services/na')
       .then(res => {
       })
       .catch(err => {
