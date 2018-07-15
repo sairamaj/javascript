@@ -1,0 +1,11 @@
+[{
+        "name": "request_1",
+        "matches": ["request_1"],
+        "response": "service2_response_1"
+    },
+    {
+        "name": "request_2",
+        "matches": ["request_2"],
+        "response": "service2_response_2"
+    }
+]

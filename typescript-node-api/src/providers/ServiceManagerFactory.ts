@@ -1,9 +1,9 @@
 import { ServiceManager } from "../ServiceManager";
 import { InMemoryProvider } from "./InMemoryProvider";
-import { FileProvider } from "./FileProvicer";
+import { ServicesFileProvider } from "./ServicesFileProvicer";
 
 export namespace ServiceManagerFactory {
     export function createServiceManager(): ServiceManager {
-        return new FileProvider();
+        return new ServicesFileProvider();
     }
 }

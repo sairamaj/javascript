@@ -9,11 +9,11 @@ const expect = chai.expect;
 
 describe('POST services', () => {
 
-  it.only('responds with service1-request1', () => {
+  it('responds with service1-request1', () => {
     return chai.request(app).post('/service1').send(' this is request_1 data')
       .then(res => {
         expect(res.status).to.equal(200);
-        expect(res["text"]).equal('service1_response_1')
+        expect('<xml>service1_response_1</xml>').equal(res['text'])
       });
   });
 
@@ -21,7 +21,7 @@ describe('POST services', () => {
     return chai.request(app).post('/service1').send(' this is request_2 data')
       .then(res => {
         expect(res.status).to.equal(200);
-        expect(res["text"]).equal('service1_response_2')
+        expect('<xml>service1_response_2</xml>').equal(res['text'])
       });
   });
 
@@ -30,7 +30,7 @@ describe('POST services', () => {
       .then(res => {
       })
       .catch(err => {
-        expect(err.status).to.equal(404);
+        expect(404).to.equal(err.status);
       })
   });
 
@@ -38,7 +38,7 @@ describe('POST services', () => {
     return chai.request(app).post('/service2').send('this is request_1 data')
       .then(res => {
         expect(res.status).to.equal(200);
-        expect(res["text"]).equal('service2_response_1')
+        expect('<xml>service2_response_1</xml>').equal(res['text'])
       });
   });
 

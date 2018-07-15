@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const InMemoryProvider_1 = require("../providers/InMemoryProvider");
+const ServiceManagerFactory_1 = require("../providers/ServiceManagerFactory");
 class ServiceRouter {
     /**
-     * Initialize the AdminRouter
+     * Initialize the ServiceRouter
      */
     constructor() {
         this.router = express_1.Router();
@@ -19,7 +19,7 @@ class ServiceRouter {
         console.log('ServiceRouter handle body:...>' + requestData);
         var parts = req.url.split('/');
         var serviceName = parts[parts.length - 1];
-        var processInfo = new InMemoryProvider_1.InMemoryProvider().getResponse(serviceName, requestData);
+        var processInfo = ServiceManagerFactory_1.ServiceManagerFactory.createServiceManager().getResponse(serviceName, requestData);
         if (processInfo) {
             res.status(200).
                 set({ 'content-type': 'text/xml; charset=utf-8' })
@@ -41,7 +41,7 @@ class ServiceRouter {
     }
 }
 exports.ServiceRouter = ServiceRouter;
-// Create the AdminRouter, and export its configured Express.Router
+// Create the ServiceRouter, and export its configured Express.Router
 const serviceRoutes = new ServiceRouter();
 serviceRoutes.init();
 exports.default = serviceRoutes.router;

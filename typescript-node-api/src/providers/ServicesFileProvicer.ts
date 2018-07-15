@@ -4,9 +4,10 @@ import { ProcessInfo } from '../model/ProcessInfo';
 import * as glob from 'glob';
 import * as path from 'path';
 import * as fs from 'fs';
-var debug = require('debug')('fileprovider')
+import { ServiceFileProvider } from './ServiceFileProvider';
+var debug = require('debug')('servicesfileprovider')
 
-export class FileProvider implements ServiceManager {
+export class ServicesFileProvider implements ServiceManager {
     public getServices(): Service[] {
         debug('enter:getServices')
         var services = []
@@ -28,23 +29,15 @@ export class FileProvider implements ServiceManager {
 
     public getResponse(name: string, request: string): ProcessInfo {
         debug('enter:getResponse');
-        var responseDirectory = this.getServiceResponseDirectory(name);
-        debug('getResponse: response Directory: ' + responseDirectory)
-        if (!fs.existsSync(responseDirectory)) {
-            debug('warn: directory does not exist.' + responseDirectory);
+        
+        var serviceProvider = new ServiceFileProvider(name);
+        var response = serviceProvider.getResponse(request);
+        if( response === undefined){
             return null;
         }
-
-        var responseFileName = this.getResponseFileName(name, 'request_1')
-        if (!fs.existsSync(responseFileName)) {
-            debug('warn: file does not exist.' + responseFileName);
-            return null;
-        }
-
-        var responseData = fs.readFileSync(responseFileName, 'utf-8');
         
         var processInfo = new ProcessInfo(request);
-        processInfo.response = responseData;
+        processInfo.response = response;
         return processInfo;
     }
 
@@ -52,11 +45,5 @@ export class FileProvider implements ServiceManager {
         return process.cwd() + path.sep + 'data';
     }
 
-    getServiceResponseDirectory(serviceName: string): string {
-        return this.getDataDirectory() + path.sep + serviceName + path.sep + 'responses';
-    }
 
-    getResponseFileName(serviceName: string, requestName: string): string {
-        return this.getServiceResponseDirectory(serviceName) + path.sep + requestName + '.xml';
-    }
 }
