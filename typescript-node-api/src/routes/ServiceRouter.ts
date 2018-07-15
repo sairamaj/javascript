@@ -1,11 +1,11 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { InMemoryProvider } from '../providers/InMemoryProvider';
+import { ServiceManagerFactory } from '../providers/ServiceManagerFactory';
 
 export class ServiceRouter {
     router: Router
 
     /**
-     * Initialize the AdminRouter
+     * Initialize the ServiceRouter
      */
     constructor() {
         this.router = Router();
@@ -21,7 +21,7 @@ export class ServiceRouter {
         console.log('ServiceRouter handle body:...>' + requestData)
         var parts = req.url.split('/')
         var serviceName = parts[parts.length - 1]
-        var processInfo = new InMemoryProvider().getResponse(serviceName, requestData);
+        var processInfo = ServiceManagerFactory.createServiceManager().getResponse(serviceName, requestData);
         if (processInfo) {
             res.status(200).
                 set({ 'content-type': 'text/xml; charset=utf-8' })
@@ -44,7 +44,7 @@ export class ServiceRouter {
 
 }
 
-// Create the AdminRouter, and export its configured Express.Router
+// Create the ServiceRouter, and export its configured Express.Router
 const serviceRoutes = new ServiceRouter();
 serviceRoutes.init();
 

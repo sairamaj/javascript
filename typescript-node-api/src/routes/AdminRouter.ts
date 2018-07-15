@@ -1,6 +1,5 @@
 import {Router, Request, Response, NextFunction} from 'express';
-import { InMemoryProvider } from '../providers/InMemoryProvider';
-
+import { ServiceManagerFactory } from '../providers/ServiceManagerFactory';
 
 export class AdminRouter {
   router: Router
@@ -17,7 +16,7 @@ export class AdminRouter {
    * GET all services.
    */
   public getAll(req: Request, res: Response, next: NextFunction) {
-    res.send(new InMemoryProvider().getServices());
+    res.send(ServiceManagerFactory.createServiceManager().getServices());
   }
 
 /**
@@ -25,7 +24,7 @@ export class AdminRouter {
  */
 public getOne(req: Request, res: Response, next: NextFunction) {
     let name = req.params.name;
-    var service = new InMemoryProvider().getService(name)
+    var service = ServiceManagerFactory.createServiceManager().getService(name)
     if (service) {
       res.status(200)
         .send({
