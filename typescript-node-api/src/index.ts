@@ -1,4 +1,5 @@
 // http://mherman.org/blog/2016/11/05/developing-a-restful-api-with-node-and-typescript/
+// https://itnext.io/building-restful-web-apis-with-node-js-express-mongodb-and-typescript-part-1-2-195bdaf129cf
 import * as http from 'http';
 import * as debug from 'debug';
 

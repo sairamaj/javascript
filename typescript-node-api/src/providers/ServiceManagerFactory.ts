@@ -4,6 +4,7 @@ import { ServicesFileProvider } from "./ServicesFileProvicer";
 
 export namespace ServiceManagerFactory {
     export function createServiceManager(): ServiceManager {
-        return new ServicesFileProvider();
+        //return new ServicesFileProvider();
+        return new InMemoryProvider();
     }
 }

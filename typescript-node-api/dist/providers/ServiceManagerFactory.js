@@ -1,10 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const ServicesFileProvicer_1 = require("./ServicesFileProvicer");
+const InMemoryProvider_1 = require("./InMemoryProvider");
 var ServiceManagerFactory;
 (function (ServiceManagerFactory) {
     function createServiceManager() {
-        return new ServicesFileProvicer_1.ServicesFileProvider();
+        //return new ServicesFileProvider();
+        return new InMemoryProvider_1.InMemoryProvider();
     }
     ServiceManagerFactory.createServiceManager = createServiceManager;
 })(ServiceManagerFactory = exports.ServiceManagerFactory || (exports.ServiceManagerFactory = {}));

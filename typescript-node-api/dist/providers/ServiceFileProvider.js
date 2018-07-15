@@ -12,7 +12,7 @@ class ServiceFileProvider {
             debug('warn: map file name does not exists:' + mapFileName);
             return;
         }
-        this.configMaps = JSON.parse(mapFileName);
+        this.configMaps = JSON.parse(fs.readFileSync(mapFileName, 'utf-8'));
     }
     getResponse(request) {
         debug('enter:getResponse');
@@ -43,6 +43,9 @@ class ServiceFileProvider {
     getDataDirectory() {
         return process.cwd() + path.sep + 'data';
     }
+    getServiceDirectory() {
+        return process.cwd() + path.sep + 'data' + path.sep + this.name;
+    }
     getServiceResponseDirectory() {
         return this.getDataDirectory() + path.sep + this.name + path.sep + 'responses';
     }
@@ -50,7 +53,7 @@ class ServiceFileProvider {
         return this.getServiceResponseDirectory() + path.sep + requestName + '.xml';
     }
     getConfigMapDirectory(serviceName) {
-        var configDirectory = this.getServiceResponseDirectory() + path.sep + 'config';
+        return this.getServiceDirectory() + path.sep + 'config';
     }
     getConfigMapFile() {
         return this.getConfigMapDirectory(this.name) + path.sep + 'map.json';

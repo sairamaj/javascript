@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const ProcessInfo_1 = require("../model/ProcessInfo");
-const TestData = require('../testdata/testdata1');
+const TestData = require('../../testdata/testdata1');
 class InMemoryProvider {
     getServices() {
         return TestData;

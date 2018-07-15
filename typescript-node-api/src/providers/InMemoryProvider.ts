@@ -1,7 +1,7 @@
 import { ServiceManager } from '../ServiceManager';
 import { Service } from '../model/Service';
 import { ProcessInfo } from '../model/ProcessInfo';
-const TestData = require('../testdata/testdata1')
+const TestData = require('../../testdata/testdata1')
 
 export class InMemoryProvider implements ServiceManager {
     public getServices(): Service[] {
