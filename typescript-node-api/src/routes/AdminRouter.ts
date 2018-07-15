@@ -1,5 +1,6 @@
 import {Router, Request, Response, NextFunction} from 'express';
-const Hosts = require('../hosts');
+import { HostManager } from '../HostManager';
+const Hosts = require('../hosts')
 
 export class AdminRouter {
   router: Router
@@ -16,15 +17,15 @@ export class AdminRouter {
    * GET all Hosts.
    */
   public getAll(req: Request, res: Response, next: NextFunction) {
-    res.send(Hosts);
+    res.send(new HostManager().getHosts());
   }
 
 /**
  * GET one host by name
  */
 public getOne(req: Request, res: Response, next: NextFunction) {
-    let query = req.params.name;
-    let host = Hosts.find(host => host.name === query);
+    let name = req.params.name;
+    var host = new HostManager().getHost(name)
     if (host) {
       res.status(200)
         .send({
@@ -36,8 +37,7 @@ public getOne(req: Request, res: Response, next: NextFunction) {
     else {
       res.status(404)
         .send({
-          message: 'No host found with the given name.',
-          status: res.status
+          message: name + ' host not found.'
         });
     }
   }

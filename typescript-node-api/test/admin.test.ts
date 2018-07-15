@@ -47,4 +47,13 @@ describe('GET api/v1/admin/hosts/:name', () => {
       });
   });
 
+  it('should return 404 for not available host', () => {
+    return chai.request(app).get('/api/v1/admin/hosts/na')
+      .then(res => {
+      })
+      .catch(err => {
+        expect(err.status).to.equal(404);
+      });
+  });
+
 });

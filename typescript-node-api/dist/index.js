@@ -24,6 +24,7 @@ function onError(error) {
     if (error.syscall !== 'listen')
         throw error;
     let bind = (typeof port === 'string') ? 'Pipe ' + port : 'Port ' + port;
+    console.log('in onError...');
     switch (error.code) {
         case 'EACCES':
             console.error(`${bind} requires elevated privileges`);
@@ -34,6 +35,7 @@ function onError(error) {
             process.exit(1);
             break;
         default:
+            console.log('in default throwin error.');
             throw error;
     }
 }

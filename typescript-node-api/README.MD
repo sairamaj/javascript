@@ -6,3 +6,5 @@ npm start
 
 * Run single file
     * npm test -- --grep admin
+
+[debugging](https://medium.com/@benlesh/debugging-typescript-mocha-tests-with-vscode-89310051531)
