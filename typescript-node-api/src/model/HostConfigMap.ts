@@ -3,6 +3,7 @@ export class HostConfigMap{
         public name:string,
         public matches:string[]
     ){
-        
     }
+
+    public response: string;
 }

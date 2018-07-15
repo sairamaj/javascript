@@ -1,8 +1,32 @@
 [{
-        "name": "host1"
+        "name": "host1",
+        "config": [{
+                "name": "request_1",
+                "matches": ["request_1"],
+                "response": "host1_response_1"
+            },
+            {
+                "name": "request_2",
+                "matches": ["request_2"],
+                "response": "host1_response_2"
+            }
+
+        ]
     },
     {
-        "name": "host2"
+        "name": "host2",
+        "config": [{
+                "name": "request_1",
+                "matches": ["request_1"],
+                "response": "host2_response_1"
+            },
+            {
+                "name": "request_2",
+                "matches": ["request_2"],
+                "response": "host2_response_2"
+            }
+
+        ]
     },
     {
         "name": "host3"

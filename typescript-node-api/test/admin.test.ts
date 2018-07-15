@@ -52,7 +52,6 @@ describe('GET api/v1/admin/hosts/:name', () => {
       .then(res => {
       })
       .catch(err => {
-
         expect(err.status).to.equal(404);
       });
   });

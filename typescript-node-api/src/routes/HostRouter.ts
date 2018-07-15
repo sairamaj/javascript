@@ -1,4 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express';
+import { InMemoryProvider } from '../providers/InMemoryProvider';
 
 export class HostRouter {
     router: Router
@@ -16,11 +17,21 @@ export class HostRouter {
      */
     public handle(req: Request, res: Response, next: NextFunction) {
         console.log('HostRouter handle:...>' + req.url)
+        var requestData = Object.keys(req.body)[0]
+        console.log('HostRouter handle body:...>' + requestData)
         var parts = req.url.split('/')
-        var hostName = parts[parts.length-1]
-        res.status(200).
-            set({ 'content-type': 'text/xml; charset=utf-8' })
-            .send(hostName + ' here')
+        var hostName = parts[parts.length - 1]
+        var processInfo = new InMemoryProvider().getResponse(hostName, requestData);
+        if (processInfo) {
+            res.status(200).
+                set({ 'content-type': 'text/xml; charset=utf-8' })
+                .send(processInfo.response)
+        } else {
+            res.status(404)
+                .send({
+                    message: 'no match found.'
+                });
+        }
     }
 
     /**

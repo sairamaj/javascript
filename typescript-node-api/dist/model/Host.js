@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class Host {
-    constructor(name, ConfigMaps) {
+    constructor(name, config) {
         this.name = name;
-        this.ConfigMaps = ConfigMaps;
+        this.config = config;
     }
 }
 exports.Host = Host;
