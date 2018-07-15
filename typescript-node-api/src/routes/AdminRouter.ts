@@ -1,5 +1,5 @@
 import {Router, Request, Response, NextFunction} from 'express';
-import { HostManager } from '../HostManager';
+import { InMemoryProvider } from '../providers/InMemoryProvider';
 
 
 export class AdminRouter {
@@ -17,7 +17,7 @@ export class AdminRouter {
    * GET all Hosts.
    */
   public getAll(req: Request, res: Response, next: NextFunction) {
-    res.send(new HostManager().getHosts());
+    res.send(new InMemoryProvider().getHosts());
   }
 
 /**
@@ -25,7 +25,7 @@ export class AdminRouter {
  */
 public getOne(req: Request, res: Response, next: NextFunction) {
     let name = req.params.name;
-    var host = new HostManager().getHost(name)
+    var host = new InMemoryProvider().getHost(name)
     if (host) {
       res.status(200)
         .send({

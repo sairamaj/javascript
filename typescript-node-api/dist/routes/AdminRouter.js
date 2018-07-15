@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const HostManager_1 = require("../HostManager");
+const InMemoryProvider_1 = require("../providers/InMemoryProvider");
 class AdminRouter {
     /**
      * Initialize the AdminRouter
@@ -14,14 +14,14 @@ class AdminRouter {
      * GET all Hosts.
      */
     getAll(req, res, next) {
-        res.send(new HostManager_1.HostManager().getHosts());
+        res.send(new InMemoryProvider_1.InMemoryProvider().getHosts());
     }
     /**
      * GET one host by name
      */
     getOne(req, res, next) {
         let name = req.params.name;
-        var host = new HostManager_1.HostManager().getHost(name);
+        var host = new InMemoryProvider_1.InMemoryProvider().getHost(name);
         if (host) {
             res.status(200)
                 .send({

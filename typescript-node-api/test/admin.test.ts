@@ -19,11 +19,11 @@ describe('GET api/v1/admin/hosts', () => {
       });
   });
 
-  it('should include datasafe', () => {
+  it('should include host1', () => {
     return chai.request(app).get('/api/v1/admin/hosts')
       .then(res => {
-        let datasafe = res.body.find(host => host.name === 'datasafe');
-        expect(datasafe).to.exist;
+        let host1 = res.body.find(host => host.name === 'host1');
+        expect(host1).to.exist;
       });
   });
 
@@ -32,7 +32,7 @@ describe('GET api/v1/admin/hosts', () => {
 describe('GET api/v1/admin/hosts/:name', () => {
 
   it('responds with single JSON object', () => {
-    return chai.request(app).get('/api/v1/admin/hosts/datasafe')
+    return chai.request(app).get('/api/v1/admin/hosts/host1')
       .then(res => {
         expect(res.status).to.equal(200);
         expect(res).to.be.json;
@@ -40,10 +40,10 @@ describe('GET api/v1/admin/hosts/:name', () => {
       });
   });
 
-  it('should return datasafe', () => {
-    return chai.request(app).get('/api/v1/admin/hosts/datasafe')
+  it('should return host1', () => {
+    return chai.request(app).get('/api/v1/admin/hosts/host1')
       .then(res => {
-        expect(res.body.host.name).to.equal('datasafe');
+        expect(res.body.host.name).to.equal('host1');
       });
   });
 
@@ -52,6 +52,7 @@ describe('GET api/v1/admin/hosts/:name', () => {
       .then(res => {
       })
       .catch(err => {
+
         expect(err.status).to.equal(404);
       });
   });

@@ -10,20 +10,22 @@ class HostRouter {
         this.init();
     }
     /**
-     * GET host
+     * POST host
      */
-    getAll(req, res, next) {
-        console.log('HostRouter getAll:...>' + req.url);
-        res.send({
-            message: 'processing host...'
-        });
+    handle(req, res, next) {
+        console.log('HostRouter handle:...>' + req.url);
+        var parts = req.url.split('/');
+        var hostName = parts[parts.length - 1];
+        res.status(200).
+            set({ 'content-type': 'text/xml; charset=utf-8' })
+            .send(hostName + ' here');
     }
     /**
      * Take each handler, and attach to one of the Express.Router's
      * endpoints.
      */
     init() {
-        this.router.get('/', this.getAll);
+        this.router.post('*', this.handle);
     }
 }
 exports.HostRouter = HostRouter;
@@ -31,3 +33,4 @@ exports.HostRouter = HostRouter;
 const hostRoutes = new HostRouter();
 hostRoutes.init();
 exports.default = hostRoutes.router;
+//export default hostRoutes.handle;

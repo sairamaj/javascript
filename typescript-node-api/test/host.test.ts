@@ -9,19 +9,19 @@ const expect = chai.expect;
 
 describe('POST hosts', () => {
 
-  it('responds with datasafe hosts', () => {
-    return chai.request(app).post('/datasafe')
+  it('responds with host1 hosts', () => {
+    return chai.request(app).post('/host1')
       .then(res => {
         expect(res.status).to.equal(200);
-        expect(res["text"]).equal('datasafe here')
+        expect(res["text"]).equal('host1 here')
       });
   });
 
-  it('responds with xp2 hosts', () => {
-    return chai.request(app).post('/xp2')
+  it('responds with host2 hosts', () => {
+    return chai.request(app).post('/host2')
       .then(res => {
         expect(res.status).to.equal(200);
-        expect(res["text"]).equal('xp2 here')
+        expect(res["text"]).equal('host2 here')
       });
   });
 

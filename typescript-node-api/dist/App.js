@@ -26,7 +26,12 @@ class App {
          * API endpoints */
         let router = express.Router();
         this.express.use('/api/v1/admin/hosts', AdminRouter_1.default);
-        this.express.use('/*', HostRouter_1.default);
+        this.express.all("*", HostRouter_1.default);
+        //this.express.use('*', HostRouter);
+        // this.express.use((req, res) => {
+        //   console.log('in default...')
+        //   new HostRouter(req, res, null).handle()
+        // });
     }
 }
 exports.default = new App().express;
