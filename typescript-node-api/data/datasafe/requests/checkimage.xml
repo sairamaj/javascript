@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-16"?>
+<fiAPI xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.users.com/fiapiWrapper">
+  <fiHeader Version="1.0">
+    <Service Version="1" Name="DataSafe" xmlns="http://integration.fiapi.com">
+      <DateTime>2018-06-27T15:05:52.0453703-07:00</DateTime>
+      <UUID>a7c209e0-7d52-4460-9cf4-ad7a2596726c</UUID>
+    </Service>
+    <Security xmlns="http://integration.fiapi.com">
+      <AuthenticationMaterial>
+        <PrincipalPWD>PrincipalPasswordHere</PrincipalPWD>
+      </AuthenticationMaterial>
+      <PrincipalID>PrincipalIdHere</PrincipalID>
+    </Security>
+    <Client xmlns="http://integration.fiapi.com">
+      <VendorID>ClientVendorId</VendorID>
+      <AppID>ClientAppId</AppID>
+      <OrgID>ClientOrgId</OrgID>
+      <SessionID xsi:nil="true" />
+    </Client>
+    <DataSource xmlns="http://integration.fiapi.com">
+      <URI>123456789</URI>
+    </DataSource>
+  </fiHeader>
+  <Request Echo="false" Version="1.0">
+    <DSContext />
+    <DSChkImgRq xmlns="http://integration.fiapi.com/Chkimg">
+      <DSChkInfo>
+        <AccountNum>100131</AccountNum>
+        <CheckNum>12345</CheckNum>
+        <ImageSide>FB</ImageSide>
+      </DSChkInfo>
+    </DSChkImgRq>
+  </Request>
+</fiAPI>

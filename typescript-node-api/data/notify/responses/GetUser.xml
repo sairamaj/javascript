@@ -1,0 +1,27 @@
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body>
+    <GetUserRs xmlns:v1_0="http://fiserv.com/CloudServices/EnterpriseAlerting/v1_0_0" xmlns="http://fiserv.com/CloudServices/EnterpriseAlerting/v1_0_0">
+      <GetUserResult xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+        <v1_0:MessageId>-707107236_58472d5c-6af0-447a-a5dd-dfa1834d6b06</v1_0:MessageId>
+        <v1_0:ResponseCode>0</v1_0:ResponseCode>
+        <v1_0:StatusCategory>Informational</v1_0:StatusCategory>
+        <v1_0:StatusMessage>Success</v1_0:StatusMessage>
+        <v1_0:EapUserId>100</v1_0:EapUserId>
+	<v1_0:Endpoints>
+	</v1_0:Endpoints>
+      </GetUserResult>
+      <v1_0:Status>
+        <efxstatus:StatusCode xmlns:efxstatus="http://EFX.integration.fiserv.com/V1_0">0</efxstatus:StatusCode>
+        <efxstatus:StatusDesc xmlns:efxstatus="http://EFX.integration.fiserv.com/V1_0">Success</efxstatus:StatusDesc>
+        <efxstatus:Severity xmlns:efxstatus="http://EFX.integration.fiserv.com/V1_0">Info</efxstatus:Severity>
+        <efxstatus:SvcProviderName xmlns:efxstatus="http://EFX.integration.fiserv.com/V1_0" />
+        <efxstatus:AdditionalStatus xmlns:efxstatus="http://EFX.integration.fiserv.com/V1_0">
+          <efxstatus:StatusCode>0</efxstatus:StatusCode>
+          <efxstatus:StatusDesc>Success</efxstatus:StatusDesc>
+          <efxstatus:Severity>Info</efxstatus:Severity>
+          <efxstatus:SvcProviderName>AuthenticateClient</efxstatus:SvcProviderName>
+        </efxstatus:AdditionalStatus>
+      </v1_0:Status>
+    </GetUserRs>
+  </s:Body>
+</s:Envelope>

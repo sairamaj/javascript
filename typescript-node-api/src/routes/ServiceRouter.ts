@@ -1,5 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { ServiceManagerFactory } from '../providers/ServiceManagerFactory';
+var debug = require('debug')('servicerouter')
 
 export class ServiceRouter {
     router: Router
@@ -17,10 +18,7 @@ export class ServiceRouter {
      */
     public async handle(req: Request, res: Response, next: NextFunction) {
         try {
-            console.log('ServiceRouter handle:...>' + req.url)
-            console.log('ServiceRouter req.body: ' + JSON.stringify(req.body));
             var requestData = await this.getRequest(req);
-            console.log('ServiceRouter handle body:...>' + requestData)
             var parts = req.url.split('/')
             var serviceName = parts[parts.length - 1]
             var processInfo = ServiceManagerFactory.createServiceManager().getResponse(serviceName, requestData);
@@ -35,7 +33,7 @@ export class ServiceRouter {
                     });
             }
         } catch (error) {
-            console.log('error:' + error)
+            debug('error:' + error)
             res.status(500)
                 .send(error);
         }
@@ -54,9 +52,9 @@ export class ServiceRouter {
 
     async getRequest(req: Request): Promise<string> {
         return new Promise<string>((resolve,reject) => {
-            var requestData = Object.keys(req.body)[0]
-            if( requestData !== undefined){
-                resolve(requestData);
+            var requestData = JSON.stringify(req.body)
+            if( requestData !== undefined && requestData.length > 2){
+                resolve(JSON.stringify(requestData));
             }else{
                 requestData = '';
                 req.on('data', chunk => {

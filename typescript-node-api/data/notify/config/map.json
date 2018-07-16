@@ -1,0 +1,14 @@
+[
+    {
+        "name" : "AuthenticateClient",
+        "matches": [
+                "AuthenticateClientRq"
+        ]
+    },
+    {
+        "name" : "GetUser",
+        "matches": [
+            "GetUserRq"
+        ]
+    }
+]

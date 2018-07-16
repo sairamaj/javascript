@@ -1,0 +1,45 @@
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Header>
+    <h:EFXHdr xmlns:h="http://Hdr.EFX.integration.fiserv.com/V1_0" xmlns="http://Hdr.EFX.integration.fiserv.com/V1_0" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <Client>
+        <Organization>
+          <OrgId>FISV</OrgId>
+          <OrgIdSource>Fiserv</OrgIdSource>
+        </Organization>
+      </Client>
+    </h:EFXHdr>
+    <Authorization xmlns="http://Hdr.EFX.integration.fiserv.com/V1_0">A11111111</Authorization>
+    <ClaimsIdentity xmlns="identity://fiserv.com/corillian/claims" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+      <m_actor i:nil="true" xmlns="http://schemas.datacontract.org/2004/07/System.Security.Claims" />
+      <m_authenticationType xmlns="http://schemas.datacontract.org/2004/07/System.Security.Claims">JWT</m_authenticationType>
+      <m_bootstrapContext i:nil="true" xmlns="http://schemas.datacontract.org/2004/07/System.Security.Claims" />
+      <m_label i:nil="true" xmlns="http://schemas.datacontract.org/2004/07/System.Security.Claims" />
+      <m_serializedClaims xmlns="http://schemas.datacontract.org/2004/07/System.Security.Claims">AAEAAAD/////AQAAAAAAAAAEAQAAAI4BU3lzdGVtLkNvbGxlY3Rpb25zLkdlbmVyaWMuTGlzdGAxW1tTeXN0ZW0uU2VjdXJpdHkuQ2xhaW1zLkNsYWltLCBtc2NvcmxpYiwgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODldXQMAAAAGX2l0ZW1zBV9zaXplCF92ZXJzaW9uAwAAHlN5c3RlbS5TZWN1cml0eS5DbGFpbXMuQ2xhaW1bXQgICQIAAAAKAAAADAAAAAcCAAAAAAEAAAAQAAAAAxxTeXN0ZW0uU2VjdXJpdHkuQ2xhaW1zLkNsYWltCQMAAAAJBAAAAAkFAAAACQYAAAAJBwAAAAkIAAAACQkAAAAJCgAAAAkLAAAACQwAAAANBgQDAAAAHFN5c3RlbS5TZWN1cml0eS5DbGFpbXMuQ2xhaW0GAAAACG1faXNzdWVyEG1fb3JpZ2luYWxJc3N1ZXIGbV90eXBlB21fdmFsdWULbV92YWx1ZVR5cGUMbV9wcm9wZXJ0aWVzAQEBAQED4gFTeXN0ZW0uQ29sbGVjdGlvbnMuR2VuZXJpYy5EaWN0aW9uYXJ5YDJbW1N5c3RlbS5TdHJpbmcsIG1zY29ybGliLCBWZXJzaW9uPTQuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3YTVjNTYxOTM0ZTA4OV0sW1N5c3RlbS5TdHJpbmcsIG1zY29ybGliLCBWZXJzaW9uPTQuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3YTVjNTYxOTM0ZTA4OV1dBg0AAAAyaHR0cHM6Ly9wZGR2LWFzcDA1LXN2Yy5wcWEubmV0OjQ0My9SZXN0QVBJL2Nvbm5lY3QJDQAAAAYOAAAAA2lzcwkNAAAABhAAAAAnaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEjc3RyaW5nCgEEAAAAAwAAAAkNAAAACQ0AAAAGEgAAAANhdWQGEwAAADxodHRwczovL3BkZHYtYXNwMDUtc3ZjLnBxYS5uZXQ6NDQzL1Jlc3RBUEkvY29ubmVjdC9yZXNvdXJjZXMJEAAAAAoBBQAAAAMAAAAJDQAAAAkNAAAABhYAAAADZXhwBhcAAAAKMTQ4NzY5NjE2MwYYAAAABEpTT04JGQAAAAEGAAAAAwAAAAkNAAAACQ0AAAAGGwAAAANuYmYGHAAAAAoxNDg3NjkyNTYzCRgAAAAJHgAAAAEHAAAAAwAAAAkNAAAACQ0AAAAGIAAAAAljbGllbnRfaWQGIQAAABV0cnVzdGVkLWNsaWVudC1jbGFpbXMJEAAAAAoBCAAAAAMAAAAJDQAAAAkNAAAABiQAAAAFc2NvcGUGJQAAAAhpZGVudGl0eQkQAAAACgEJAAAAAwAAAAkNAAAACQ0AAAAJJAAAAAYpAAAADnJlcXVlc3RfY2xhaW1zCRAAAAAKAQoAAAADAAAACQ0AAAAJDQAAAAYsAAAAL2lkZW50aXR5Oi8vZmlzZXJ2LmNvbS9jb3JpbGxpYW4vY2xhaW1zL3RlbmFudGlkBi0AAAAkZGM2NjkzNmQtOGE2My00YzAwLTg0NGEtMTlkNzYzYWIzMDcxCRAAAAAKAQsAAAADAAAACQ0AAAAJDQAAAAYwAAAAQmh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcHJpbWFyeXNpZAYxAAAAIEVEMUVFNDRBQTRCMTQ0NjY4Q0RDQjJEQkJDRUY3RkNECRAAAAAJMwAAAAEMAAAAAwAAAAkNAAAACQ0AAAAGNQAAADlpZGVudGl0eTovL2Zpc2Vydi5jb20vY29yaWxsaWFuL2NsYWltcy9pbnRlcm5hbC1zZXNzaW9uaWQGNgAAACBDMTM5N0Y1NkU0RjI0NjE3OEZGOTA0MkI2MTkzMzY1MAkQAAAACgQZAAAA4gFTeXN0ZW0uQ29sbGVjdGlvbnMuR2VuZXJpYy5EaWN0aW9uYXJ5YDJbW1N5c3RlbS5TdHJpbmcsIG1zY29ybGliLCBWZXJzaW9uPTQuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3YTVjNTYxOTM0ZTA4OV0sW1N5c3RlbS5TdHJpbmcsIG1zY29ybGliLCBWZXJzaW9uPTQuMC4wLjAsIEN1bHR1cmU9bmV1dHJhbCwgUHVibGljS2V5VG9rZW49Yjc3YTVjNTYxOTM0ZTA4OV1dBAAAAAdWZXJzaW9uCENvbXBhcmVyCEhhc2hTaXplDUtleVZhbHVlUGFpcnMAAwADCJIBU3lzdGVtLkNvbGxlY3Rpb25zLkdlbmVyaWMuR2VuZXJpY0VxdWFsaXR5Q29tcGFyZXJgMVtbU3lzdGVtLlN0cmluZywgbXNjb3JsaWIsIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5XV0I5gFTeXN0ZW0uQ29sbGVjdGlvbnMuR2VuZXJpYy5LZXlWYWx1ZVBhaXJgMltbU3lzdGVtLlN0cmluZywgbXNjb3JsaWIsIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5XSxbU3lzdGVtLlN0cmluZywgbXNjb3JsaWIsIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5XV1bXQEAAAAJOAAAAAMAAAAJOQAAAAEeAAAAGQAAAAEAAAAJOAAAAAMAAAAJOwAAAAEzAAAAGQAAAAEAAAAJOAAAAAMAAAAJPQAAAAQ4AAAAkgFTeXN0ZW0uQ29sbGVjdGlvbnMuR2VuZXJpYy5HZW5lcmljRXF1YWxpdHlDb21wYXJlcmAxW1tTeXN0ZW0uU3RyaW5nLCBtc2NvcmxpYiwgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODldXQAAAAAHOQAAAAABAAAAAQAAAAPkAVN5c3RlbS5Db2xsZWN0aW9ucy5HZW5lcmljLktleVZhbHVlUGFpcmAyW1tTeXN0ZW0uU3RyaW5nLCBtc2NvcmxpYiwgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODldLFtTeXN0ZW0uU3RyaW5nLCBtc2NvcmxpYiwgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODldXQTC////5AFTeXN0ZW0uQ29sbGVjdGlvbnMuR2VuZXJpYy5LZXlWYWx1ZVBhaXJgMltbU3lzdGVtLlN0cmluZywgbXNjb3JsaWIsIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5XSxbU3lzdGVtLlN0cmluZywgbXNjb3JsaWIsIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5XV0CAAAAA2tleQV2YWx1ZQEBBj8AAABIaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXByb3BlcnRpZXMvanNvbl90eXBlBkAAAAAMU3lzdGVtLkludDMyBzsAAAAAAQAAAAEAAAAD5AFTeXN0ZW0uQ29sbGVjdGlvbnMuR2VuZXJpYy5LZXlWYWx1ZVBhaXJgMltbU3lzdGVtLlN0cmluZywgbXNjb3JsaWIsIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5XSxbU3lzdGVtLlN0cmluZywgbXNjb3JsaWIsIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5XV0Bv////8L///8JPwAAAAlAAAAABz0AAAAAAQAAAAEAAAAD5AFTeXN0ZW0uQ29sbGVjdGlvbnMuR2VuZXJpYy5LZXlWYWx1ZVBhaXJgMltbU3lzdGVtLlN0cmluZywgbXNjb3JsaWIsIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5XSxbU3lzdGVtLlN0cmluZywgbXNjb3JsaWIsIFZlcnNpb249NC4wLjAuMCwgQ3VsdHVyZT1uZXV0cmFsLCBQdWJsaWNLZXlUb2tlbj1iNzdhNWM1NjE5MzRlMDg5XV0BvP///8L///8GRQAAAExodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcHJvcGVydGllcy9TaG9ydFR5cGVOYW1lBkYAAAADc3ViCw==</m_serializedClaims>
+      <m_serializedNameType xmlns="http://schemas.datacontract.org/2004/07/System.Security.Claims">http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name</m_serializedNameType>
+      <m_serializedRoleType xmlns="http://schemas.datacontract.org/2004/07/System.Security.Claims">http://schemas.microsoft.com/ws/2008/06/identity/claims/role</m_serializedRoleType>
+      <m_version xmlns="http://schemas.datacontract.org/2004/07/System.Security.Claims">1.0</m_version>
+    </ClaimsIdentity>
+    <ClaimsIdentity xmlns="identity://fiserv.com/corillian/claims" xmlns:i="http://www.w3.org/2001/XMLSchema-instance">
+      <m_actor i:nil="true" xmlns="http://schemas.datacontract.org/2004/07/System.Security.Claims" />
+      <m_authenticationType i:nil="true" xmlns="http://schemas.datacontract.org/2004/07/System.Security.Claims" />
+      <m_bootstrapContext i:nil="true" xmlns="http://schemas.datacontract.org/2004/07/System.Security.Claims" />
+      <m_label xmlns="http://schemas.datacontract.org/2004/07/System.Security.Claims">EntitlementClaims</m_label>
+      <m_serializedClaims xmlns="http://schemas.datacontract.org/2004/07/System.Security.Claims">AAEAAAD/////AQAAAAAAAAAEAQAAAI4BU3lzdGVtLkNvbGxlY3Rpb25zLkdlbmVyaWMuTGlzdGAxW1tTeXN0ZW0uU2VjdXJpdHkuQ2xhaW1zLkNsYWltLCBtc2NvcmxpYiwgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5ldXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODldXQMAAAAGX2l0ZW1zBV9zaXplCF92ZXJzaW9uAwAAHlN5c3RlbS5TZWN1cml0eS5DbGFpbXMuQ2xhaW1bXQgICQIAAAAAAAAAjgAAAAcCAAAAAAEAAACAAAAAAxxTeXN0ZW0uU2VjdXJpdHkuQ2xhaW1zLkNsYWltDYAL</m_serializedClaims>
+      <m_serializedNameType xmlns="http://schemas.datacontract.org/2004/07/System.Security.Claims">http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name</m_serializedNameType>
+      <m_serializedRoleType xmlns="http://schemas.datacontract.org/2004/07/System.Security.Claims">http://schemas.microsoft.com/ws/2008/06/identity/claims/role</m_serializedRoleType>
+      <m_version xmlns="http://schemas.datacontract.org/2004/07/System.Security.Claims">1.0</m_version>
+    </ClaimsIdentity>
+    <tenantId xmlns="urn:Autofac.Extras.Multitenant">dc66936d-8a63-4c00-844a-19d763ab3071</tenantId>
+  </s:Header>
+  <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <GetUserRq xmlns="http://fiserv.com/CloudServices/EnterpriseAlerting/v1_0_0">
+      <request>
+        <MessageId>962593847</MessageId>
+        <UserIdentity>
+          <BankingUserId>ed1ee44aa4b144668cdcb2dbbcef7fcd</BankingUserId>
+          <Relationship>Retail</Relationship>
+        </UserIdentity>
+      </request>
+    </GetUserRq>
+  </s:Body>
+</s:Envelope>

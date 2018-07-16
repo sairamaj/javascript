@@ -1,0 +1,76 @@
+[
+	{
+		"name": "addxfr",
+		"matches": [
+			"INTRARQ"
+		]
+		
+	},
+	{
+		"name": "checkimage",
+		"matches": [
+			"DSChkInfo"
+		]
+	},
+	{
+		"name": "eStatementListDocuments",
+		"matches": [
+			"QueryDocumentsRq"
+		]
+	},
+	{
+		"name": "eStatementOpenDocuments",
+		"matches": [
+			"OpenDocumentRq"
+		]
+	},
+	{
+		"name": "getaccountdetails",
+		"matches": [
+			"STMTENDTRNRQ"
+		]
+	},
+	{
+		"name": "getaccounts",
+		"matches": [
+			"ACCTINFORQ"
+		]
+	},
+	{
+		"name": "history",
+		"matches": [
+			"STMTRQ"
+		]
+	},
+	{
+		"name": "publishemail",
+		"matches": [
+			"USERS.MODPROFRQ",
+			"EMAIL"
+		]
+	},
+	{
+		"name": "signon",
+		"matches": [
+			"USERS.ENROLLRQ"
+		]
+	},
+	{
+		"name": "stopmultiplepayments",
+		"matches": [
+			"CHKNUMEND"
+		]
+	},
+	{
+		"name": "stopsinglepayment",
+		"matches": [
+			"CHKNUMSTART"
+		]
+	},
+	{
+		"name": "updateuseraddress",
+		"matches": [
+			"CHANGEADDRESS"
+		]
+	}
+]

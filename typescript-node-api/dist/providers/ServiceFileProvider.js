@@ -27,12 +27,12 @@ class ServiceFileProvider {
         debug('getResponse:foundConfig:' + foundConfig);
         if (foundConfig === undefined) {
             debug('warn:getResponse map not found');
-            return null;
+            return undefined;
         }
         var responseFileName = this.getResponseFileName(foundConfig.name);
         if (!fs.existsSync(responseFileName)) {
             debug('warn: response fileName not found:' + responseFileName);
-            return null;
+            return undefined;
         }
         debug('getResponse: reading file:' + responseFileName);
         return fs.readFileSync(responseFileName, 'utf-8');

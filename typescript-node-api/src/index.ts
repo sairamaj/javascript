@@ -15,7 +15,7 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 
-function normalizePort(val: number|string): number|string|boolean {
+function normalizePort(val: number | string): number | string | boolean {
   let port: number = (typeof val === 'string') ? parseInt(val, 10) : val;
   if (isNaN(port)) return val;
   else if (port >= 0) return port;
@@ -26,7 +26,7 @@ function onError(error: NodeJS.ErrnoException): void {
   if (error.syscall !== 'listen') throw error;
   let bind = (typeof port === 'string') ? 'Pipe ' + port : 'Port ' + port;
   console.log('in onError...')
-  switch(error.code) {
+  switch (error.code) {
     case 'EACCES':
       console.error(`${bind} requires elevated privileges`);
       process.exit(1);
@@ -36,7 +36,7 @@ function onError(error: NodeJS.ErrnoException): void {
       process.exit(1);
       break;
     default:
-    console.log('in default throwin error.')
+      console.log('in default throwin error.')
       throw error;
   }
 }
