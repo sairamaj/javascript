@@ -5,13 +5,20 @@ const logger = require("morgan");
 const bodyParser = require("body-parser");
 const AdminRouter_1 = require("./routes/AdminRouter");
 const ServiceRouter_1 = require("./routes/ServiceRouter");
+const mongoose = require("mongoose");
 // Creates and configures an ExpressJS web server.
 class App {
     //Run configuration methods on the Express instance.
     constructor() {
+        this.mongoUrl = 'mongodb://localhost/simulator';
         this.express = express();
         this.middleware();
         this.routes();
+        this.mongoSetup();
+    }
+    mongoSetup() {
+        mongoose.Promise = global.Promise;
+        mongoose.connect(this.mongoUrl);
     }
     // Configure Express middleware.
     middleware() {

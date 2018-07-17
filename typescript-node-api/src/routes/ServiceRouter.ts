@@ -21,7 +21,7 @@ export class ServiceRouter {
             var requestData = await this.getRequest(req);
             var parts = req.url.split('/')
             var serviceName = parts[parts.length - 1]
-            var processInfo = ServiceManagerFactory.createServiceManager().getResponse(serviceName, requestData);
+            var processInfo = await ServiceManagerFactory.createServiceManager().getResponse(serviceName, requestData);
             if (processInfo) {
                 res.status(200).
                     set({ 'content-type': 'text/xml; charset=utf-8' })

@@ -9,7 +9,7 @@ const expect = chai.expect;
 
 describe('POST services', () => {
 
-  it('responds with service1-request1', () => {
+  it.only('responds with service1-request1', () => {
     return chai.request(app).post('/service1').send(' this is request_1 data')
       .then(res => {
         expect(res.status).to.equal(200);

@@ -14,10 +14,10 @@ export class ServiceFileProvider {
             return;
         }
 
-        this.configMaps = JSON.parse(fs.readFileSync(mapFileName,'utf-8'));
+        this.configMaps = JSON.parse(fs.readFileSync(mapFileName, 'utf-8'));
     }
 
-    public getResponse(request: string): string {
+    public async getResponse(request: string): Promise<string> {
         debug('enter:getResponse');
 
         debug('getResponse: finding map.')
@@ -25,8 +25,7 @@ export class ServiceFileProvider {
             if (c.matches === undefined) {
                 return false;
             }
-            var match = c.matches.find(m => request.includes(m)) !== undefined;
-            return match;
+            return c.matches.every(m => request.includes(m));
         })
 
         debug('getResponse:foundConfig:' + foundConfig);
@@ -36,13 +35,22 @@ export class ServiceFileProvider {
         }
 
         var responseFileName = this.getResponseFileName(foundConfig.name);
-        if (!fs.existsSync(responseFileName)) {
-            debug('warn: response fileName not found:' + responseFileName);
-            return undefined;
-        }
 
-        debug('getResponse: reading file:' + responseFileName);
-        return fs.readFileSync(responseFileName, 'utf-8')
+        return new Promise<string>((resolve, reject) => {
+            debug('getResponse: reading file:' + responseFileName);
+            if (!fs.existsSync(responseFileName)) {
+                resolve(undefined);
+                return;
+            }
+
+            return fs.readFile(responseFileName, 'utf-8', (err, data) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(data);
+                }
+            });
+        });
     }
 
     public getConfigMap(): ServiceConfigMap {

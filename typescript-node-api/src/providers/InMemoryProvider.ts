@@ -17,31 +17,30 @@ export class InMemoryProvider implements ServiceManager {
         return services.find(h => h.name == name)
     }
 
-    public getResponse(name: string, request: string): ProcessInfo {
-        return undefined;
-        // var service = this.getService(name);
-        // if (service === undefined || service.config === undefined) {
-        //     debug('warn: ' + name + ' not found.');
-        //     return undefined;
-        // }
+    public async getResponse(name: string, request: string): Promise<ProcessInfo> {
+        var service = await this.getService(name);
+        if (service === undefined || service.config === undefined) {
+            debug('warn: ' + name + ' not found.');
+            return undefined;
+        }
 
-        // var foundConfig = service.config.find(c => {
-        //     if (c.matches === undefined) {
-        //         return false;
-        //     }
+        var foundConfig = service.config.find(c => {
+            if (c.matches === undefined) {
+                return false;
+            }
 
-        //     return c.matches.every(m => request.includes(m));
-        // });
+            return c.matches.every(m => request.includes(m));
+        });
 
-        // if (foundConfig === undefined) {
-        //     debug('warn: matching not found.');
-        //     return undefined;
-        // }
-        // debug('foundConfig:' + JSON.stringify(foundConfig));
+        if (foundConfig === undefined) {
+            debug('warn: matching not found.');
+            return undefined;
+        }
+        debug('foundConfig:' + JSON.stringify(foundConfig));
 
-        // var processInfo = new ProcessInfo(request);
-        // processInfo.matches = [];
-        // processInfo.response = foundConfig.response;
-        // return processInfo;
+        var processInfo = new ProcessInfo(request);
+        processInfo.matches = [];
+        processInfo.response = foundConfig.response;
+        return processInfo;
     }
 }

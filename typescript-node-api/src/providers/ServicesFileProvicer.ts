@@ -30,7 +30,7 @@ export class ServicesFileProvider implements ServiceManager {
         return services.find(s => s.name == name);
     }
 
-    public getResponse(name: string, request: string): ProcessInfo {
+    public async getResponse(name: string, request: string): Promise<ProcessInfo> {
         debug('enter:getResponse');
 
         var serviceProvider = new ServiceFileProvider(name);
@@ -40,7 +40,7 @@ export class ServicesFileProvider implements ServiceManager {
         }
 
         var processInfo = new ProcessInfo(request);
-        processInfo.response = response;
+        processInfo.response = await serviceProvider.getResponse(request);
         return processInfo;
     }
 

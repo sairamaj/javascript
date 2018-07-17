@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const ServiceManagerFactory_1 = require("../providers/ServiceManagerFactory");
+var debug = require('debug')('servicerouter');
 class ServiceRouter {
     /**
      * Initialize the ServiceRouter
@@ -24,13 +25,10 @@ class ServiceRouter {
     handle(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log('ServiceRouter handle:...>' + req.url);
-                console.log('ServiceRouter req.body: ' + JSON.stringify(req.body));
                 var requestData = yield this.getRequest(req);
-                console.log('ServiceRouter handle body:...>' + requestData);
                 var parts = req.url.split('/');
                 var serviceName = parts[parts.length - 1];
-                var processInfo = ServiceManagerFactory_1.ServiceManagerFactory.createServiceManager().getResponse(serviceName, requestData);
+                var processInfo = yield ServiceManagerFactory_1.ServiceManagerFactory.createServiceManager().getResponse(serviceName, requestData);
                 if (processInfo) {
                     res.status(200).
                         set({ 'content-type': 'text/xml; charset=utf-8' })
@@ -44,7 +42,7 @@ class ServiceRouter {
                 }
             }
             catch (error) {
-                console.log('error:' + error);
+                debug('error:' + error);
                 res.status(500)
                     .send(error);
             }
