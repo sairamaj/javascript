@@ -1,12 +1,14 @@
 import { ServiceManager } from '../ServiceManager';
 import { Service } from '../model/Service';
 import { ServiceSchema } from '../model/ServiceSchema';
+import { ResponseSchema } from '../model/ResponseSchema';
 import { ProcessInfo } from '../model/ProcessInfo';
 import * as mongoose from "mongoose";
 import { resolve } from 'url';
 const debug = require('debug')('mongodbprovider')
 
 const ServiceDbSchema = mongoose.model('services', ServiceSchema);
+const ResponseDbSchema = mongoose.model('responses', ResponseSchema);
 
 
 export class MongoDbProvider implements ServiceManager {
@@ -30,7 +32,7 @@ export class MongoDbProvider implements ServiceManager {
                     reject(err);
                 } else {
                     debug('getServices: services:' + JSON.stringify(service));
-                    resolve(service);
+                    resolve(service[0]);
                 }
             })
         });
@@ -66,13 +68,21 @@ export class MongoDbProvider implements ServiceManager {
         var responseNameKey = name + "_response_" + foundConfig.name;
         debug('reading mongodb:' + responseNameKey);
         return new Promise<ProcessInfo>((resolve, reject) => {
-            ServiceDbSchema.find({ key: responseNameKey
+            ResponseDbSchema.find({ name: responseNameKey
              }, (err, response) => {
                 if (err) {
                     debug('warn:' + err);
                     reject(err);
                 } else {
-                    resolve(response);
+                    if( response.length == 0){
+                        resolve(undefined)
+                        return
+                    }
+
+                    var processInfo = new ProcessInfo(request);
+                    processInfo.matches = [];
+                    processInfo.response = response[0].response;
+                    resolve(processInfo);
                 }
             })
         });
