@@ -23,9 +23,9 @@ export class AdminRouter {
   /**
    * GET one service by name
    */
-  public getOne(req: Request, res: Response, next: NextFunction) {
+  public async getOne(req: Request, res: Response, next: NextFunction) {
     let name = req.params.name;
-    var service = ServiceManagerFactory.createServiceManager().getService(name)
+    var service = await ServiceManagerFactory.createServiceManager().getService(name)
     if (service) {
       res.status(200)
         .send({

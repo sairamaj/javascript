@@ -24,10 +24,10 @@ export class ServicesFileProvider implements ServiceManager {
         });
     }
 
-    public getService(name: string): Service {
-        debug('enter:getService')
-        //return this.getServices().find(s => s.name == name);
-    return undefined;   
+    public async getService(name: string): Promise<Service> {
+        debug('enter:getService');
+        var services = await this.getServices();
+        return services.find(s => s.name == name);
     }
 
     public getResponse(name: string, request: string): ProcessInfo {

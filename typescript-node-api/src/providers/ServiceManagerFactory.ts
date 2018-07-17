@@ -5,8 +5,8 @@ import { MongoDbProvider } from "./MongoDbProvider";
 
 export namespace ServiceManagerFactory {
     export function createServiceManager(): ServiceManager {
-        //  return new InMemoryProvider();
-        //return new ServicesFileProvider();
+         // return new InMemoryProvider();
+        // return new ServicesFileProvider();
         return new MongoDbProvider();
     }
 }

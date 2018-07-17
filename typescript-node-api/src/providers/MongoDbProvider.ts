@@ -23,8 +23,17 @@ export class MongoDbProvider implements ServiceManager {
         });
     }
 
-    public getService(name: string): Service {
-        return undefined;
+    public async getService(name: string): Promise<Service> {
+        return new Promise<Service>((resolve, reject) => {
+            ServiceDbSchema.find({ name: name}, (err, service) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    debug('getServices: services:' + JSON.stringify(service))  ;
+                    resolve(service);
+                }
+            })
+        });
     }
 
     public getResponse(name: string, request: string): ProcessInfo {
