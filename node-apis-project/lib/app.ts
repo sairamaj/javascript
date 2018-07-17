@@ -1,7 +1,7 @@
 // lib/app.ts
 import * as express from "express";
 import * as bodyParser from "body-parser";
-import { Routes } from "./routes/crmRoutes";
+import { Routes } from "routes/crmRoutes";
 import * as mongoose from "mongoose";
 
 class App {

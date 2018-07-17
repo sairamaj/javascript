@@ -1,6 +1,6 @@
 //   /lib/controllers/crmController.ts
 import * as mongoose from 'mongoose';
-import { ContactSchema } from '../models/crmModel';
+import { ContactSchema } from 'models/crmModel';
 import { Request, Response } from 'express';
 
 const Contact = mongoose.model('Contact', ContactSchema);
