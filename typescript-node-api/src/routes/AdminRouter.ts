@@ -1,4 +1,4 @@
-import {Router, Request, Response, NextFunction} from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import { ServiceManagerFactory } from '../providers/ServiceManagerFactory';
 
 export class AdminRouter {
@@ -15,14 +15,15 @@ export class AdminRouter {
   /**
    * GET all services.
    */
-  public getAll(req: Request, res: Response, next: NextFunction) {
-    res.send(ServiceManagerFactory.createServiceManager().getServices());
+  public async getAll(req: Request, res: Response, next: NextFunction) {
+    var services = await ServiceManagerFactory.createServiceManager().getServices();
+    res.send(services);
   }
 
-/**
- * GET one service by name
- */
-public getOne(req: Request, res: Response, next: NextFunction) {
+  /**
+   * GET one service by name
+   */
+  public getOne(req: Request, res: Response, next: NextFunction) {
     let name = req.params.name;
     var service = ServiceManagerFactory.createServiceManager().getService(name)
     if (service) {
@@ -40,8 +41,8 @@ public getOne(req: Request, res: Response, next: NextFunction) {
         });
     }
   }
-  
-  
+
+
   /**
    * Take each handler, and attach to one of the Express.Router's
    * endpoints.
