@@ -1,5 +1,6 @@
 import * as mongoose from "mongoose";
-import { ServiceSchema } from './models/ServiceModel';
+import { ServiceSchema } from '../lib/models/ServiceModel';
+import * as fs from "fs";
 
 var mongoUrl: string = 'mongodb://localhost/simulator';
 mongoose.Promise = global.Promise;
@@ -7,19 +8,12 @@ mongoose.connect(mongoUrl);
 
 const Service = mongoose.model('services', ServiceSchema);
 let newService = new Service();
-newService.name = "service1";
-newService.config = []
-newService.config.push({
-    name: "request_1",
-    matches: ["request_1", "input1"]
-});
-
-console.log('writing contrct.')
-newService.save((err, service) => {
+let data = JSON.parse(fs.readFileSync('./data.json', 'utf-8'));
+Service.collection.insertMany(data, (err, result) => {
     if (err) {
         console.log(err)
+    } else {
+        console.log('success:' + result.insertedCount);
     }
-    console.log(service);
     mongoose.disconnect();
 });
-
