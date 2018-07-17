@@ -22,14 +22,12 @@
                     "request_1",
                     "input1"
                 ],
-                "response": "<xml>service2_response_1_with_input1</xml>"
             },
             {
                 "name": "request_1",
                 "matches": [
                     "request_1"
-                ],
-                "response": "<xml>service2_response_1</xml>"
+                ]
             },
             {
                 "name": "request_2",

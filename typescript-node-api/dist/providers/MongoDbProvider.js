@@ -9,9 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const ServiceSchema_1 = require("../model/ServiceSchema");
+const ResponseSchema_1 = require("../model/ResponseSchema");
+const ProcessInfo_1 = require("../model/ProcessInfo");
 const mongoose = require("mongoose");
 const debug = require('debug')('mongodbprovider');
 const ServiceDbSchema = mongoose.model('services', ServiceSchema_1.ServiceSchema);
+const ResponseDbSchema = mongoose.model('responses', ResponseSchema_1.ResponseSchema);
 class MongoDbProvider {
     getServices() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -37,7 +40,7 @@ class MongoDbProvider {
                     }
                     else {
                         debug('getServices: services:' + JSON.stringify(service));
-                        resolve(service);
+                        resolve(service[0]);
                     }
                 });
             });
@@ -69,14 +72,21 @@ class MongoDbProvider {
             var responseNameKey = name + "_response_" + foundConfig.name;
             debug('reading mongodb:' + responseNameKey);
             return new Promise((resolve, reject) => {
-                ServiceDbSchema.find({ key: responseNameKey
+                ResponseDbSchema.find({ name: responseNameKey
                 }, (err, response) => {
                     if (err) {
                         debug('warn:' + err);
                         reject(err);
                     }
                     else {
-                        resolve(response);
+                        if (response.length == 0) {
+                            resolve(undefined);
+                            return;
+                        }
+                        var processInfo = new ProcessInfo_1.ProcessInfo(request);
+                        processInfo.matches = [];
+                        processInfo.response = response[0].response;
+                        resolve(processInfo);
                     }
                 });
             });
