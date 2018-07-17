@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const AdminRouter_1 = require("./routes/AdminRouter");
 const ServiceRouter_1 = require("./routes/ServiceRouter");
 const mongoose = require("mongoose");
+const config = require('./config');
 // Creates and configures an ExpressJS web server.
 class App {
     //Run configuration methods on the Express instance.
@@ -17,8 +18,10 @@ class App {
         this.mongoSetup();
     }
     mongoSetup() {
-        mongoose.Promise = global.Promise;
-        mongoose.connect(this.mongoUrl);
+        if (config.app.provider === 'mongo') {
+            mongoose.Promise = global.Promise;
+            mongoose.connect(this.mongoUrl);
+        }
     }
     // Configure Express middleware.
     middleware() {

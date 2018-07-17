@@ -4,9 +4,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // https://itnext.io/building-restful-web-apis-with-node-js-express-mongodb-and-typescript-part-1-2-195bdaf129cf
 const http = require("http");
 const debug = require("debug");
+var config = require('./config');
 const App_1 = require("./App");
 debug('ts-express:server');
-const port = normalizePort(process.env.PORT || 80);
+const port = normalizePort(config.app.port);
 App_1.default.set('port', port);
 const server = http.createServer(App_1.default);
 server.listen(port);

@@ -5,6 +5,7 @@ import * as bodyParser from 'body-parser';
 import AdminRouter from './routes/AdminRouter';
 import ServiceRouter from './routes/ServiceRouter';
 import * as mongoose from "mongoose";
+const config = require('./config');
 
 // Creates and configures an ExpressJS web server.
 class App {
@@ -22,8 +23,10 @@ class App {
   }
 
   private mongoSetup(): void {
-    mongoose.Promise = global.Promise;
-    mongoose.connect(this.mongoUrl);
+    if (config.app.provider === 'mongo') {
+      mongoose.Promise = global.Promise;
+      mongoose.connect(this.mongoUrl);
+    }
   }
 
   // Configure Express middleware.

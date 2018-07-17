@@ -6,10 +6,6 @@ import { ServiceSchema } from '../src/model/ServiceSchema';
 import { ResponseSchema } from '../src/model/ResponseSchema';
 import { resolve } from 'url';
 
-var mongoUrl: string = 'mongodb://localhost/simulator';
-mongoose.Promise = global.Promise;
-mongoose.connect(mongoUrl);
-
 const ServiceDbSchema = mongoose.model('services', ServiceSchema);
 const ResponseDbSchema = mongoose.model('responses', ResponseSchema);
 
@@ -26,9 +22,16 @@ class Service {
     }
 }
 
-class ImportService {
-    constructor(public path: string) {
 
+class ImportService {
+    public mongoUrl: string = 'mongodb://localhost/simulator';
+    constructor(public path: string) {
+        this.mongoSetup();
+    }
+
+    private mongoSetup(): void {
+        mongoose.Promise = global.Promise;
+        mongoose.connect(this.mongoUrl);
     }
 
     public async import(): Promise<void> {
@@ -114,7 +117,16 @@ class ImportService {
     }
 }
 
-var dataPath = 'E:\\dev\\sairamaj\\javascript\\typescript-node-api\\data'
+for (let j = 0; j < process.argv.length; j++) {
+    console.log(j + ' -> ' + (process.argv[j]));
+}
+if (process.argv.length < 3) {
+    console.error('data path required.')
+    process.exit(-1)
+}
+
+var dataPath = process.argv[2]
+console.log('importing:' + dataPath);
 var importService = new ImportService(dataPath);
 async function clearAndImport() {
     console.log('clearing...')
@@ -123,4 +135,10 @@ async function clearAndImport() {
     await importService.import();
 }
 
-clearAndImport();
+clearAndImport()
+    .then(result => {
+        console.log('final success');
+    }).catch(err => {
+        console.log('final:' + err);
+    })
+

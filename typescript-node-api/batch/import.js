@@ -41,9 +41,6 @@ var fs = require("fs");
 var mongoose = require("mongoose");
 var ServiceSchema_1 = require("../src/model/ServiceSchema");
 var ResponseSchema_1 = require("../src/model/ResponseSchema");
-var mongoUrl = 'mongodb://localhost/simulator';
-mongoose.Promise = global.Promise;
-mongoose.connect(mongoUrl);
 var ServiceDbSchema = mongoose.model('services', ServiceSchema_1.ServiceSchema);
 var ResponseDbSchema = mongoose.model('responses', ResponseSchema_1.ResponseSchema);
 var ServiceConfigMap = /** @class */ (function () {
@@ -65,7 +62,13 @@ var Service = /** @class */ (function () {
 var ImportService = /** @class */ (function () {
     function ImportService(path) {
         this.path = path;
+        this.mongoUrl = 'mongodb://localhost/simulator';
+        this.mongoSetup();
     }
+    ImportService.prototype.mongoSetup = function () {
+        mongoose.Promise = global.Promise;
+        mongoose.connect(this.mongoUrl);
+    };
     ImportService.prototype["import"] = function () {
         return __awaiter(this, void 0, void 0, function () {
             var services, data;
@@ -200,7 +203,15 @@ var ImportService = /** @class */ (function () {
     };
     return ImportService;
 }());
-var dataPath = 'E:\\dev\\sairamaj\\javascript\\typescript-node-api\\data';
+for (var j = 0; j < process.argv.length; j++) {
+    console.log(j + ' -> ' + (process.argv[j]));
+}
+if (process.argv.length < 3) {
+    console.error('data path required.');
+    process.exit(-1);
+}
+var dataPath = process.argv[2];
+console.log('importing:' + dataPath);
 var importService = new ImportService(dataPath);
 function clearAndImport() {
     return __awaiter(this, void 0, void 0, function () {
@@ -220,4 +231,9 @@ function clearAndImport() {
         });
     });
 }
-clearAndImport();
+clearAndImport()
+    .then(function (result) {
+    console.log('final success');
+})["catch"](function (err) {
+    console.log('final:' + err);
+});

@@ -2,13 +2,18 @@ import { ServiceManager } from '../ServiceManager';
 import { Service } from '../model/Service';
 import { ProcessInfo } from '../model/ProcessInfo';
 import { resolve } from 'path';
-const TestData = require('../../testdata/testdata1')
-const debug = require('debug')('servicefileprovider')
+const debug = require('debug')('inmemoryprovider')
 
 export class InMemoryProvider implements ServiceManager {
+
+    TestData : any;
+    constructor() {
+        this.TestData = require('../../testdata/testdata1');
+    }
+    
     public async getServices(): Promise<Service[]> {
         return new Promise<Service[]>((resolve)=>{
-            resolve(TestData);
+            resolve(this.TestData);
         });
     }
 

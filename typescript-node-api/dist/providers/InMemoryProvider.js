@@ -9,13 +9,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const ProcessInfo_1 = require("../model/ProcessInfo");
-const TestData = require('../../testdata/testdata1');
-const debug = require('debug')('servicefileprovider');
+const debug = require('debug')('inmemoryprovider');
 class InMemoryProvider {
+    constructor() {
+        this.TestData = require('../../testdata/testdata1');
+    }
     getServices() {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve) => {
-                resolve(TestData);
+                resolve(this.TestData);
             });
         });
     }
