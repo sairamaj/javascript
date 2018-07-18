@@ -1,5 +1,5 @@
 // config.js
-const env = process.env.NODE_ENV; // 'dev' or 'test'
+const env = process.env.NODE_ENV || "dev"; // 'dev' or 'prod' or 'azure'
 const dev = {
     app: {
         port: process.env.PORT || 3000,
@@ -12,7 +12,7 @@ const prod = {
         provider: process.env.PROVIDER || 'file'
     }
 };
-const azureprod = {
+const azure = {
     app: {
         port: process.env.PORT || 80,
         provider: process.env.PROVIDER || 'mongo',
@@ -22,7 +22,7 @@ const azureprod = {
 const config = {
     dev,
     prod,
-    azureprod
+    azure
 };
 function getConfig() {
     var current = config[env];
