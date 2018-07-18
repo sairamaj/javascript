@@ -8,7 +8,7 @@ chai.use(chaiHttp);
 const expect = chai.expect;
       
 describe('GET api/v1/admin/services', () => {
-  it('responds with JSON array', () => {
+  it.only('responds with JSON array', () => {
     return chai.request(app).get('/api/v1/admin/services')
       .then(res => {
         expect(res.status).to.equal(200);

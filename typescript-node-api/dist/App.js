@@ -11,7 +11,6 @@ const config = require('./config');
 class App {
     //Run configuration methods on the Express instance.
     constructor() {
-        this.mongoUrl = 'mongodb://localhost/simulator';
         this.express = express();
         this.middleware();
         this.routes();
@@ -20,7 +19,7 @@ class App {
     mongoSetup() {
         if (config.app.provider === 'mongo') {
             mongoose.Promise = global.Promise;
-            mongoose.connect(this.mongoUrl);
+            mongoose.connect(config.app.mongoDbConnection, { useNewUrlParser: true });
         }
     }
     // Configure Express middleware.

@@ -12,7 +12,6 @@ class App {
 
   // ref to Express instance
   public express: express.Application;
-  public mongoUrl: string = 'mongodb://localhost/simulator';
 
   //Run configuration methods on the Express instance.
   constructor() {
@@ -25,7 +24,7 @@ class App {
   private mongoSetup(): void {
     if (config.app.provider === 'mongo') {
       mongoose.Promise = global.Promise;
-      mongoose.connect(this.mongoUrl);
+      mongoose.connect(config.app.mongoDbConnection,{useNewUrlParser: true});
     }
   }
 

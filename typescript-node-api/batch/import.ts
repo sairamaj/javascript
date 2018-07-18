@@ -24,20 +24,26 @@ class Service {
 
 
 class ImportService {
-    public mongoUrl: string = 'mongodb://localhost/simulator';
+    // public mongoUrl: string = 'mongodb://localhost:27017/simulator';
+    public mongoUrl: string = 'mondbconnectionhere.'
     constructor(public path: string) {
         this.mongoSetup();
     }
 
     private mongoSetup(): void {
         mongoose.Promise = global.Promise;
-        mongoose.connect(this.mongoUrl);
+
+        console.log('connecting...')
+        mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
+        
+        console.log('connected...')
     }
 
     public async import(): Promise<void> {
 
         var services = await this.getServices();
         var data = this.createServicesCollectionInfo(services);
+        console.log('inserting services...')
         await ServiceDbSchema.collection.insertMany(data, (err, result) => {
             if (err) {
                 console.log(err)
@@ -46,6 +52,7 @@ class ImportService {
             }
         });
 
+        console.log('inserting responses...')
         services.forEach(async s => {
             s.config.forEach(async c => {
                 var responseNameKey = s.name + "_response_" + c.name;

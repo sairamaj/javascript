@@ -62,12 +62,15 @@ var Service = /** @class */ (function () {
 var ImportService = /** @class */ (function () {
     function ImportService(path) {
         this.path = path;
-        this.mongoUrl = 'mongodb://localhost/simulator';
+        // public mongoUrl: string = 'mongodb://localhost:27017/simulator';
+        this.mongoUrl = 'mondbconnectionhere.';
         this.mongoSetup();
     }
     ImportService.prototype.mongoSetup = function () {
         mongoose.Promise = global.Promise;
-        mongoose.connect(this.mongoUrl);
+        console.log('connecting...');
+        mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
+        console.log('connected...');
     };
     ImportService.prototype["import"] = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -79,6 +82,7 @@ var ImportService = /** @class */ (function () {
                     case 1:
                         services = _a.sent();
                         data = this.createServicesCollectionInfo(services);
+                        console.log('inserting services...');
                         return [4 /*yield*/, ServiceDbSchema.collection.insertMany(data, function (err, result) {
                                 if (err) {
                                     console.log(err);
@@ -89,6 +93,7 @@ var ImportService = /** @class */ (function () {
                             })];
                     case 2:
                         _a.sent();
+                        console.log('inserting responses...');
                         services.forEach(function (s) { return __awaiter(_this, void 0, void 0, function () {
                             var _this = this;
                             return __generator(this, function (_a) {
