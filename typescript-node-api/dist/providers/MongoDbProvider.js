@@ -10,40 +10,30 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const ServiceSchema_1 = require("../model/ServiceSchema");
 const ResponseSchema_1 = require("../model/ResponseSchema");
+const LogRequestSchema_1 = require("../model/LogRequestSchema");
 const ProcessInfo_1 = require("../model/ProcessInfo");
 const mongoose = require("mongoose");
+const ProcessedRequest_1 = require("../model/ProcessedRequest");
 const debug = require('debug')('mongodbprovider');
 const ServiceDbSchema = mongoose.model('services', ServiceSchema_1.ServiceSchema);
 const ResponseDbSchema = mongoose.model('responses', ResponseSchema_1.ResponseSchema);
+const LogRequestDbSchema = mongoose.model('logs', LogRequestSchema_1.LogRequestSchema);
 class MongoDbProvider {
     getServices() {
         return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve, reject) => {
-                ServiceDbSchema.find({}, (err, services) => {
-                    if (err) {
-                        reject(err);
-                    }
-                    else {
-                        debug('getServices: services:' + JSON.stringify(services));
-                        resolve(services);
-                    }
-                });
-            });
+            debug('enter getServices');
+            return yield ServiceDbSchema.find({});
         });
     }
     getService(name) {
         return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve, reject) => {
-                ServiceDbSchema.find({ name: name }, (err, service) => {
-                    if (err) {
-                        reject(err);
-                    }
-                    else {
-                        debug('getServices: services:' + JSON.stringify(service));
-                        resolve(service[0]);
-                    }
-                });
-            });
+            debug('enter getService');
+            const cursor = yield ServiceDbSchema.find({ name: name });
+            if (cursor.length > 0) {
+                return cursor[0];
+            }
+            debug('service ' + name + ' found');
+            return undefined;
         });
     }
     getResponse(name, request) {
@@ -85,7 +75,7 @@ class MongoDbProvider {
                             return;
                         }
                         var processInfo = new ProcessInfo_1.ProcessInfo(request);
-                        processInfo.matches = [];
+                        processInfo.matches = foundConfig.matches;
                         processInfo.response = response[0].response;
                         resolve(processInfo);
                     }
@@ -95,23 +85,41 @@ class MongoDbProvider {
     }
     logRequest(name, date, status, processInfo) {
         return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve) => {
-                resolve(true);
+            debug('enter logRequest');
+            var matches = '';
+            if (processInfo.matches !== undefined) {
+                matches = processInfo.matches.join(',');
+            }
+            yield LogRequestDbSchema.collection.insertOne({
+                name: name,
+                date: date,
+                status: status,
+                request: processInfo.request,
+                response: processInfo.response,
+                matches: matches
             });
+            return true;
         });
     }
     getProcessedRequests(name) {
         return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve) => {
-                resolve([]);
+            debug('enter getProcessedRequests:' + name);
+            var results = [];
+            var response = yield LogRequestDbSchema.collection.find({
+                name: name
+            }).toArray();
+            response.forEach(r => {
+                results.push(new ProcessedRequest_1.ProcessedRequest(r.date, r.status, r.request, r.response, r.matches));
             });
+            return results;
         });
     }
     clearProcessedRequests(name) {
         return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve) => {
-                resolve(true);
+            yield LogRequestDbSchema.collection.remove({
+                name: name
             });
+            return true;
         });
     }
 }

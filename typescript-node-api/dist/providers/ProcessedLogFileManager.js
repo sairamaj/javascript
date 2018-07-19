@@ -47,6 +47,24 @@ class ProcessLogFileManager {
             });
         });
     }
+    clearLogs() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve, reject) => {
+                try {
+                    var searchPath = this.getLogDirectory() + '/*.log';
+                    glob(searchPath, {}, function (err, files) {
+                        return __awaiter(this, void 0, void 0, function* () {
+                            files.forEach(fs.unlinkSync);
+                        });
+                    });
+                    resolve();
+                }
+                catch (error) {
+                    reject(error);
+                }
+            });
+        });
+    }
     writeLog(processRequest) {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve, reject) => {
@@ -104,9 +122,6 @@ class ProcessLogFileManager {
             lastCount = 1;
         }
         return fileName;
-    }
-    getDataDirectory() {
-        return process.cwd() + path.sep + 'data';
     }
     getLogDirectory() {
         return process.cwd() + path.sep + 'data' + path.sep + this.name + path.sep + 'logs';

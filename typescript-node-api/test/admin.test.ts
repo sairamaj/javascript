@@ -6,7 +6,7 @@ import app from '../src/App';
 
 chai.use(chaiHttp);
 const expect = chai.expect;
-      
+
 describe('GET api/v1/admin/services', () => {
   it('responds with JSON array', () => {
     return chai.request(app).get('/api/v1/admin/services')

@@ -1,6 +1,6 @@
 FROM node:9-alpine
 COPY ./ /api/   
-RUN cd /api && npm install
+RUN cd /api && npm install --only=production
 EXPOSE 80
 ENV NODE_ENV=dev
 ENV PROVIDER=inmemory

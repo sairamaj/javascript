@@ -57,6 +57,18 @@ class AdminRouter {
             res.send(processedRequests);
         });
     }
+    deleteProcessedRequests(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let name = req.params.name;
+            var result = yield ServiceManagerFactory_1.ServiceManagerFactory.createServiceManager().clearProcessedRequests(name);
+            if (result) {
+                res.status(200).send([]);
+            }
+            else {
+                res.status(500).send([]);
+            }
+        });
+    }
     /**
      * Take each handler, and attach to one of the Express.Router's
      * endpoints.
@@ -65,6 +77,7 @@ class AdminRouter {
         this.router.get('/', this.getAll);
         this.router.get('/:name', this.getOne);
         this.router.get('/:name/processedrequests', this.getProcessedRequests);
+        this.router.delete('/:name/processedrequests', this.deleteProcessedRequests);
     }
 }
 exports.AdminRouter = AdminRouter;

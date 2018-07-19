@@ -66,9 +66,8 @@ class ServicesFileProvider {
     }
     clearProcessedRequests(name) {
         return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve) => {
-                resolve(true);
-            });
+            yield new ProcessedLogFileManager_1.ProcessLogFileManager(name).clearLogs();
+            return true;
         });
     }
 }
