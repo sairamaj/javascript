@@ -53,5 +53,19 @@ class ServicesFileProvider {
     getDataDirectory() {
         return process.cwd() + path.sep + 'data';
     }
+    logRequest(date, status, processInfo) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve) => {
+                resolve(true);
+            });
+        });
+    }
+    getProcessedRequests() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve) => {
+                resolve([]);
+            });
+        });
+    }
 }
 exports.ServicesFileProvider = ServicesFileProvider;

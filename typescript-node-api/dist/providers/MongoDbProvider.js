@@ -72,7 +72,8 @@ class MongoDbProvider {
             var responseNameKey = name + "_response_" + foundConfig.name;
             debug('reading mongodb:' + responseNameKey);
             return new Promise((resolve, reject) => {
-                ResponseDbSchema.find({ name: responseNameKey
+                ResponseDbSchema.find({
+                    name: responseNameKey
                 }, (err, response) => {
                     if (err) {
                         debug('warn:' + err);
@@ -89,6 +90,20 @@ class MongoDbProvider {
                         resolve(processInfo);
                     }
                 });
+            });
+        });
+    }
+    logRequest(date, status, processInfo) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve) => {
+                resolve(true);
+            });
+        });
+    }
+    getProcessedRequests() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve) => {
+                resolve([]);
             });
         });
     }

@@ -9,9 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const ServiceManagerFactory_1 = require("../providers/ServiceManagerFactory");
-const LogRouter_1 = require("./LogRouter");
-class AdminRouter {
+class LogRouter {
     /**
      * Initialize the AdminRouter
      */
@@ -24,31 +22,7 @@ class AdminRouter {
      */
     getAll(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            var services = yield ServiceManagerFactory_1.ServiceManagerFactory.createServiceManager().getServices();
-            res.send(services);
-        });
-    }
-    /**
-     * GET one service by name
-     */
-    getOne(req, res, next) {
-        return __awaiter(this, void 0, void 0, function* () {
-            let name = req.params.name;
-            var service = yield ServiceManagerFactory_1.ServiceManagerFactory.createServiceManager().getService(name);
-            if (service) {
-                res.status(200)
-                    .send({
-                    message: 'Success',
-                    status: res.status,
-                    service
-                });
-            }
-            else {
-                res.status(404)
-                    .send({
-                    message: name + ' service not found.'
-                });
-            }
+            res.send([]);
         });
     }
     /**
@@ -57,12 +31,10 @@ class AdminRouter {
      */
     init() {
         this.router.get('/', this.getAll);
-        this.router.get('/:name/processedrequests', LogRouter_1.default);
-        this.router.get('/:name', this.getOne);
     }
 }
-exports.AdminRouter = AdminRouter;
+exports.LogRouter = LogRouter;
 // Create the AdminRouter, and export its configured Express.Router
-const adminRoutes = new AdminRouter();
+const adminRoutes = new LogRouter();
 adminRoutes.init();
 exports.default = adminRoutes.router;

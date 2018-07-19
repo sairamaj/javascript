@@ -13,20 +13,29 @@ export class LogRouter {
   }
 
   /**
-   * GET all services.
+   * GET all log requests.
    */
   public async getAll(req: Request, res: Response, next: NextFunction) {
-    var services = await ServiceManagerFactory.createServiceManager().getServices();
-    res.send(services);
+    var processedRequests = await ServiceManagerFactory.createServiceManager().getProcessedRequests();
+    res.send(processedRequests);
   }
 
-  
+  public async deleteAll(req: Request, res: Response) {
+    var result = await ServiceManagerFactory.createServiceManager().clearProcessedRequests();
+    if (result) {
+      res.status(200).send([])
+    } else {
+      res.status(500).send([])
+    }
+  }
+
   /**
    * Take each handler, and attach to one of the Express.Router's
    * endpoints.
    */
   init() {
     this.router.get('/', this.getAll);
+    this.router.delete('/', this.deleteAll);
   }
 
 }

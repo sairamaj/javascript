@@ -4,6 +4,7 @@ import * as logger from 'morgan';
 import * as bodyParser from 'body-parser';
 import AdminRouter from './routes/AdminRouter';
 import ServiceRouter from './routes/ServiceRouter';
+import LogRouter from './routes/LogRouter';
 import * as mongoose from "mongoose";
 const config = require('./config');
 
@@ -38,8 +39,8 @@ class App {
   // Configure API endpoints.
   private routes(): void {
     let router = express.Router();
+    this.express.use('/api/v1/admin/services/:name/processedrequests', LogRouter)
     this.express.use('/api/v1/admin/services', AdminRouter);
-    
     this.express.all("*", ServiceRouter)
   }
 }

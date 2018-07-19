@@ -8,4 +8,5 @@ export interface ServiceManager {
     getResponse(name: string, request: string): Promise<ProcessInfo>;
     logRequest(date: Date, status: number, processInfo: ProcessInfo): Promise<boolean>;
     getProcessedRequests(): Promise<ProcessedRequest[]>
+    clearProcessedRequests(): Promise<boolean>
 }

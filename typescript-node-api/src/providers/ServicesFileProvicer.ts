@@ -60,4 +60,11 @@ export class ServicesFileProvider implements ServiceManager {
             resolve([]);
         });
     }
+
+    public async clearProcessedRequests(): Promise<boolean> {
+        return new Promise<boolean>((resolve) => {
+            resolve(true);
+        });
+
+    }
 }

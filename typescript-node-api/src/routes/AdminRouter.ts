@@ -1,6 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { ServiceManagerFactory } from '../providers/ServiceManagerFactory';
-import LogRouter from 'LogRouter';
 
 export class AdminRouter {
   router: Router
@@ -51,7 +50,6 @@ export class AdminRouter {
   init() {
     this.router.get('/', this.getAll);
     this.router.get('/:name', this.getOne)
-    this.router.get('/:name/', LogRouter)
   }
 
 }

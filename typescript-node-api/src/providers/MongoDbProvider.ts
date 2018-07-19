@@ -11,7 +11,6 @@ const debug = require('debug')('mongodbprovider')
 const ServiceDbSchema = mongoose.model('services', ServiceSchema);
 const ResponseDbSchema = mongoose.model('responses', ResponseSchema);
 
-
 export class MongoDbProvider implements ServiceManager {
     public async getServices(): Promise<Service[]> {
         return new Promise<Service[]>((resolve, reject) => {
@@ -99,6 +98,12 @@ export class MongoDbProvider implements ServiceManager {
     public async getProcessedRequests(): Promise<ProcessedRequest[]> {
         return new Promise<ProcessedRequest[]>((resolve) => {
             resolve([]);
+        });
+    }
+
+    public async clearProcessedRequests(): Promise<boolean> {
+        return new Promise<boolean>((resolve) => {
+            resolve(true);
         });
     }
 }
