@@ -8,3 +8,5 @@ npm start
     * npm test -- --grep admin
 
 [debugging](https://medium.com/@benlesh/debugging-typescript-mocha-tests-with-vscode-89310051531)
+
+-- Need to write setup log collections to some limit.

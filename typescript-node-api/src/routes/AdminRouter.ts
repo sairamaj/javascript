@@ -1,6 +1,5 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { ServiceManagerFactory } from '../providers/ServiceManagerFactory';
-import LogRouter from './LogRouter';
 
 export class AdminRouter {
   router: Router
@@ -49,6 +48,16 @@ export class AdminRouter {
     res.send(processedRequests);
   }
 
+  public async deleteProcessedRequests(req: Request, res: Response) {
+    let name = req.params.name;
+    var result = await ServiceManagerFactory.createServiceManager().clearProcessedRequests(name);
+    if (result) {
+      res.status(200).send([])
+    } else {
+      res.status(500).send([])
+    }
+  }
+  
   /**
    * Take each handler, and attach to one of the Express.Router's
    * endpoints.
@@ -57,6 +66,7 @@ export class AdminRouter {
     this.router.get('/', this.getAll);
     this.router.get('/:name', this.getOne)
     this.router.get('/:name/processedrequests', this.getProcessedRequests)
+    this.router.delete('/:name/processedrequests', this.deleteProcessedRequests)
   }
 
 }

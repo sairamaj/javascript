@@ -2,40 +2,32 @@ import { ServiceManager } from '../ServiceManager';
 import { Service } from '../model/Service';
 import { ServiceSchema } from '../model/ServiceSchema';
 import { ResponseSchema } from '../model/ResponseSchema';
+import { LogRequestSchema } from '../model/LogRequestSchema';
 import { ProcessInfo } from '../model/ProcessInfo';
 import * as mongoose from "mongoose";
-import { resolve } from 'url';
 import { ProcessedRequest } from '../model/ProcessedRequest';
 const debug = require('debug')('mongodbprovider')
 
 const ServiceDbSchema = mongoose.model('services', ServiceSchema);
 const ResponseDbSchema = mongoose.model('responses', ResponseSchema);
+const LogRequestDbSchema = mongoose.model('logs', LogRequestSchema);
+
 
 export class MongoDbProvider implements ServiceManager {
     public async getServices(): Promise<Service[]> {
-        return new Promise<Service[]>((resolve, reject) => {
-            ServiceDbSchema.find({}, (err, services) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    debug('getServices: services:' + JSON.stringify(services));
-                    resolve(services);
-                }
-            })
-        });
+        debug('enter getServices')
+        return await ServiceDbSchema.find({});
     }
 
     public async getService(name: string): Promise<Service> {
-        return new Promise<Service>((resolve, reject) => {
-            ServiceDbSchema.find({ name: name }, (err, service) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    debug('getServices: services:' + JSON.stringify(service));
-                    resolve(service[0]);
-                }
-            })
-        });
+        debug('enter getService')
+        const cursor = await ServiceDbSchema.find({ name: name });
+        if (cursor.length > 0) {
+            return cursor[0]
+        }
+
+        debug('service ' + name + ' found');
+        return undefined;
     }
 
     public async getResponse(name: string, request: string): Promise<ProcessInfo> {
@@ -49,7 +41,6 @@ export class MongoDbProvider implements ServiceManager {
             debug('warn: ' + name + ' config not found.');
             return undefined;
         }
-
 
         var foundConfig = service.config.find(c => {
             if (c.matches === undefined) {
@@ -81,7 +72,7 @@ export class MongoDbProvider implements ServiceManager {
                     }
 
                     var processInfo = new ProcessInfo(request);
-                    processInfo.matches = [];
+                    processInfo.matches = foundConfig.matches;
                     processInfo.response = response[0].response;
                     resolve(processInfo);
                 }
@@ -90,20 +81,42 @@ export class MongoDbProvider implements ServiceManager {
     }
 
     public async logRequest(name: string, date: Date, status: number, processInfo: ProcessInfo): Promise<boolean> {
-        return new Promise<boolean>((resolve) => {
-            resolve(true);
-        });
+        debug('enter logRequest')
+        var matches = ''
+        if (processInfo.matches !== undefined) {
+            matches = processInfo.matches.join(',')
+        }
+        await LogRequestDbSchema.collection.insertOne(
+            {
+                name: name,
+                date: date,
+                status: status,
+                request: processInfo.request,
+                response: processInfo.response,
+                matches: matches
+            });
+        return true;
     }
 
     public async getProcessedRequests(name: string): Promise<ProcessedRequest[]> {
-        return new Promise<ProcessedRequest[]>((resolve) => {
-            resolve([]);
+        debug('enter getProcessedRequests:' + name)
+        var results = []
+        var response = await LogRequestDbSchema.collection.find({
+            name: name
+        }).toArray();
+
+        response.forEach(r => {
+            results.push(new ProcessedRequest(r.date, r.status, r.request, r.response, r.matches));
         });
+
+        return results;
     }
 
     public async clearProcessedRequests(name: string): Promise<boolean> {
-        return new Promise<boolean>((resolve) => {
-            resolve(true);
+        await LogRequestDbSchema.collection.remove({
+            name: name
         });
+
+        return true;
     }
 }

@@ -59,8 +59,7 @@ export class ServicesFileProvider implements ServiceManager {
     }
 
     public async clearProcessedRequests(name: string): Promise<boolean> {
-        return new Promise<boolean>((resolve) => {
-            resolve(true);
-        });
+        await new ProcessLogFileManager(name).clearLogs();
+        return true;
     }
 }

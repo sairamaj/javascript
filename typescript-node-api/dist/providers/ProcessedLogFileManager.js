@@ -113,8 +113,8 @@ class ProcessLogFileManager {
     }
     parseLogFileSync(file) {
         var data = fs.readFileSync(file, 'utf-8');
-        var request;
-        var response;
+        var request = '';
+        var response = '';
         var matches;
         var requestStarted;
         var responseStarted;

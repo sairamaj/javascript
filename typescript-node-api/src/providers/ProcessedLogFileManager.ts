@@ -37,6 +37,20 @@ export class ProcessLogFileManager {
         });
     }
 
+    public async clearLogs(){
+        return new Promise<void>((resolve, reject) => {
+            try {
+                var searchPath = this.getLogDirectory() + '/*.log'
+                glob(searchPath, {}, async function (err, files) {
+                    files.forEach(fs.unlinkSync);
+                });
+                resolve();
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
     public async writeLog(processRequest: ProcessedRequest) {
         return new Promise<void>((resolve, reject) => {
             try {
@@ -99,10 +113,6 @@ export class ProcessLogFileManager {
             lastCount = 1
         }
         return fileName;
-    }
-
-    private getDataDirectory(): string {
-        return process.cwd() + path.sep + 'data';
     }
 
     private getLogDirectory(): string {

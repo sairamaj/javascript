@@ -4,14 +4,16 @@ const env = process.env.NODE_ENV || "dev"; // 'dev' or 'prod' or 'azure'
 const dev = {
     app: {
         port: process.env.PORT || 3000 ,
-        provider: process.env.PROVIDER || 'inmemory'
+        provider: process.env.PROVIDER || 'inmemory',
+        mongoDbConnection: process.env.MONGODB_CONNECTION
     }
 };
 
 const prod = {
     app: {
         port: process.env.PORT || 3000,
-        provider: process.env.PROVIDER || 'file'
+        provider: process.env.PROVIDER || 'file',
+        mongoDbConnection: process.env.MONGODB_CONNECTION
     }
 };
 
@@ -43,7 +45,7 @@ function getConfig() {
 
     if( current.app.provider == 'mongo'){
         if( current.app.mongoDbConnection === undefined || current.app.mongoDbConnection.length === 0){
-            console.error('provider is mongo but no connection string was specified. specific MONGODB_CONNECTION environment variable.')
+            console.error('provider is mongo but no connection string was specified. specify MONGODB_CONNECTION environment variable.')
             process.exit(-97)
         }
     }
