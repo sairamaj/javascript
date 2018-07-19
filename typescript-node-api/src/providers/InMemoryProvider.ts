@@ -2,17 +2,18 @@ import { ServiceManager } from '../ServiceManager';
 import { Service } from '../model/Service';
 import { ProcessInfo } from '../model/ProcessInfo';
 import { resolve } from 'path';
+import { ProcessedRequest } from '../model/ProcessedRequest';
 const debug = require('debug')('inmemoryprovider')
 
 export class InMemoryProvider implements ServiceManager {
 
-    TestData : any;
+    TestData: any;
     constructor() {
         this.TestData = require('../../testdata/testdata1');
     }
-    
+
     public async getServices(): Promise<Service[]> {
-        return new Promise<Service[]>((resolve)=>{
+        return new Promise<Service[]>((resolve) => {
             resolve(this.TestData);
         });
     }
@@ -47,5 +48,17 @@ export class InMemoryProvider implements ServiceManager {
         processInfo.matches = [];
         processInfo.response = foundConfig.response;
         return processInfo;
+    }
+
+    public async logRequest(date: Date, status: number, processInfo: ProcessInfo): Promise<boolean> {
+        return new Promise<boolean>((resolve) => {
+            resolve(true);
+        });
+    }
+
+    public async getProcessedRequests(): Promise<ProcessedRequest[]> {
+        return new Promise<ProcessedRequest[]>((resolve) => {
+            resolve([]);
+        });
     }
 }

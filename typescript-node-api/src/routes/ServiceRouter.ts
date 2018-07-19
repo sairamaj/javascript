@@ -1,5 +1,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { ServiceManagerFactory } from '../providers/ServiceManagerFactory';
+import { ProcessedRequest } from '../model/ProcessedRequest';
+import { ProcessInfo } from '../model/ProcessInfo';
 var debug = require('debug')('servicerouter')
 
 export class ServiceRouter {
@@ -21,12 +23,15 @@ export class ServiceRouter {
             var requestData = await this.getRequest(req);
             var parts = req.url.split('/')
             var serviceName = parts[parts.length - 1]
-            var processInfo = await ServiceManagerFactory.createServiceManager().getResponse(serviceName, requestData);
+            var serviceManager = ServiceManagerFactory.createServiceManager();
+            var processInfo = await serviceManager.getResponse(serviceName, requestData);
             if (processInfo) {
+                serviceManager.logRequest(new Date(), 200, processInfo);
                 res.status(200).
                     set({ 'content-type': 'text/xml; charset=utf-8' })
                     .send(processInfo.response)
             } else {
+                serviceManager.logRequest(new Date(), 404, new ProcessInfo(requestData));
                 res.status(404)
                     .send({
                         message: 'no match found.'
@@ -34,6 +39,7 @@ export class ServiceRouter {
             }
         } catch (error) {
             debug('error:' + error)
+            serviceManager.logRequest(new Date(), 500, new ProcessInfo(requestData));
             res.status(500)
                 .send(error);
         }
@@ -51,20 +57,20 @@ export class ServiceRouter {
     }
 
     async getRequest(req: Request): Promise<string> {
-        return new Promise<string>((resolve,reject) => {
+        return new Promise<string>((resolve, reject) => {
             var requestData = JSON.stringify(req.body)
-            if( requestData !== undefined && requestData.length > 2){
+            if (requestData !== undefined && requestData.length > 2) {
                 resolve(JSON.stringify(requestData));
-            }else{
+            } else {
                 requestData = '';
                 req.on('data', chunk => {
                     requestData += chunk;
                 });
-    
+
                 req.on('end', (err, data) => {
-                    if(err){
+                    if (err) {
                         reject(err);
-                    }else{
+                    } else {
                         resolve(requestData);
                     }
                 });

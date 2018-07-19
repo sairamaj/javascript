@@ -5,6 +5,7 @@ import * as glob from 'glob';
 import * as path from 'path';
 import * as fs from 'fs';
 import { ServiceFileProvider } from './ServiceFileProvider';
+import { ProcessedRequest } from '../model/ProcessedRequest';
 var debug = require('debug')('servicesfileprovider')
 
 export class ServicesFileProvider implements ServiceManager {
@@ -48,5 +49,15 @@ export class ServicesFileProvider implements ServiceManager {
         return process.cwd() + path.sep + 'data';
     }
 
+    public async logRequest(date: Date, status: number, processInfo: ProcessInfo): Promise<boolean> {
+        return new Promise<boolean>((resolve) => {
+            resolve(true);
+        });
+    }
 
+    public async getProcessedRequests(): Promise<ProcessedRequest[]> {
+        return new Promise<ProcessedRequest[]>((resolve) => {
+            resolve([]);
+        });
+    }
 }

@@ -5,6 +5,7 @@ import { ResponseSchema } from '../model/ResponseSchema';
 import { ProcessInfo } from '../model/ProcessInfo';
 import * as mongoose from "mongoose";
 import { resolve } from 'url';
+import { ProcessedRequest } from '../model/ProcessedRequest';
 const debug = require('debug')('mongodbprovider')
 
 const ServiceDbSchema = mongoose.model('services', ServiceSchema);
@@ -41,11 +42,11 @@ export class MongoDbProvider implements ServiceManager {
     public async getResponse(name: string, request: string): Promise<ProcessInfo> {
         debug('enter getResponse: ' + name)
         var service = await this.getService(name);
-        
+
         if (service === undefined) {
             debug('warn: ' + name + ' not found.');
             return undefined;
-        }else if(service.config === undefined){
+        } else if (service.config === undefined) {
             debug('warn: ' + name + ' config not found.');
             return undefined;
         }
@@ -68,13 +69,14 @@ export class MongoDbProvider implements ServiceManager {
         var responseNameKey = name + "_response_" + foundConfig.name;
         debug('reading mongodb:' + responseNameKey);
         return new Promise<ProcessInfo>((resolve, reject) => {
-            ResponseDbSchema.find({ name: responseNameKey
-             }, (err, response) => {
+            ResponseDbSchema.find({
+                name: responseNameKey
+            }, (err, response) => {
                 if (err) {
                     debug('warn:' + err);
                     reject(err);
                 } else {
-                    if( response.length == 0){
+                    if (response.length == 0) {
                         resolve(undefined)
                         return
                     }
@@ -85,6 +87,18 @@ export class MongoDbProvider implements ServiceManager {
                     resolve(processInfo);
                 }
             })
+        });
+    }
+
+    public async logRequest(date: Date, status: number, processInfo: ProcessInfo): Promise<boolean> {
+        return new Promise<boolean>((resolve) => {
+            resolve(true);
+        });
+    }
+
+    public async getProcessedRequests(): Promise<ProcessedRequest[]> {
+        return new Promise<ProcessedRequest[]>((resolve) => {
+            resolve([]);
         });
     }
 }
