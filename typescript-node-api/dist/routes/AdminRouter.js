@@ -10,7 +10,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const ServiceManagerFactory_1 = require("../providers/ServiceManagerFactory");
-const LogRouter_1 = require("./LogRouter");
 class AdminRouter {
     /**
      * Initialize the AdminRouter
@@ -51,14 +50,21 @@ class AdminRouter {
             }
         });
     }
+    getProcessedRequests(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let name = req.params.name;
+            var processedRequests = yield ServiceManagerFactory_1.ServiceManagerFactory.createServiceManager().getProcessedRequests(name);
+            res.send(processedRequests);
+        });
+    }
     /**
      * Take each handler, and attach to one of the Express.Router's
      * endpoints.
      */
     init() {
         this.router.get('/', this.getAll);
-        this.router.get('/:name/processedrequests', LogRouter_1.default);
         this.router.get('/:name', this.getOne);
+        this.router.get('/:name/processedrequests', this.getProcessedRequests);
     }
 }
 exports.AdminRouter = AdminRouter;

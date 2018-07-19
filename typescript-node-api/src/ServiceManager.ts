@@ -6,7 +6,7 @@ export interface ServiceManager {
     getServices(): Promise<Service[]>;
     getService(name: string): Promise<Service>;
     getResponse(name: string, request: string): Promise<ProcessInfo>;
-    logRequest(date: Date, status: number, processInfo: ProcessInfo): Promise<boolean>;
-    getProcessedRequests(): Promise<ProcessedRequest[]>
-    clearProcessedRequests(): Promise<boolean>
+    logRequest(name: string, date: Date, status: number, processInfo: ProcessInfo): Promise<boolean>;
+    getProcessedRequests(name: string): Promise<ProcessedRequest[]>
+    clearProcessedRequests(name: string): Promise<boolean>
 }

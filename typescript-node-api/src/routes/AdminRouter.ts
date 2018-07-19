@@ -1,5 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { ServiceManagerFactory } from '../providers/ServiceManagerFactory';
+import LogRouter from './LogRouter';
 
 export class AdminRouter {
   router: Router
@@ -42,6 +43,11 @@ export class AdminRouter {
     }
   }
 
+  public async getProcessedRequests(req: Request, res: Response) {
+    let name = req.params.name;
+    var processedRequests = await ServiceManagerFactory.createServiceManager().getProcessedRequests(name);
+    res.send(processedRequests);
+  }
 
   /**
    * Take each handler, and attach to one of the Express.Router's
@@ -50,6 +56,7 @@ export class AdminRouter {
   init() {
     this.router.get('/', this.getAll);
     this.router.get('/:name', this.getOne)
+    this.router.get('/:name/processedrequests', this.getProcessedRequests)
   }
 
 }

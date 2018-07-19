@@ -2,6 +2,8 @@ import { ServiceConfigMap } from "../model/ServiceConfigMap";
 import * as path from 'path';
 import * as fs from 'fs';
 import { Service } from "../model/Service";
+import { ProcessInfo } from "../model/ProcessInfo";
+import { ProcessedRequest } from "../model/ProcessedRequest";
 var debug = require('debug')('servicefileprovider')
 
 export class ServiceFileProvider {
@@ -17,7 +19,7 @@ export class ServiceFileProvider {
         this.configMaps = JSON.parse(fs.readFileSync(mapFileName, 'utf-8'));
     }
 
-    public async getResponse(request: string): Promise<string> {
+    public async getResponse(request: string): Promise<ProcessInfo> {
         debug('enter:getResponse');
 
         debug('getResponse: finding map.')
@@ -36,7 +38,7 @@ export class ServiceFileProvider {
 
         var responseFileName = this.getResponseFileName(foundConfig.name);
 
-        return new Promise<string>((resolve, reject) => {
+        return new Promise<ProcessInfo>((resolve, reject) => {
             debug('getResponse: reading file:' + responseFileName);
             if (!fs.existsSync(responseFileName)) {
                 resolve(undefined);
@@ -47,7 +49,10 @@ export class ServiceFileProvider {
                 if (err) {
                     reject(err);
                 } else {
-                    resolve(data);
+                    var processInfo = new ProcessInfo(request);
+                    processInfo.response = data;
+                    processInfo.matches = foundConfig.matches;
+                    resolve(processInfo);
                 }
             });
         });
@@ -57,6 +62,23 @@ export class ServiceFileProvider {
         return null;
     }
 
+    public async logRequest(date: Date, status: number, processInfo: ProcessInfo): Promise<boolean> {
+        return new Promise<boolean>((resolve) => {
+            resolve(true);
+        });
+    }
+
+    public async getProcessedRequests(): Promise<ProcessedRequest[]> {
+        return new Promise<ProcessedRequest[]>((resolve) => {
+            resolve([]);
+        });
+    }
+
+    public async clearProcessedRequests(): Promise<boolean> {
+        return new Promise<boolean>((resolve) => {
+            resolve(true);
+        });
+    }    
 
     getDataDirectory(): string {
         return process.cwd() + path.sep + 'data';

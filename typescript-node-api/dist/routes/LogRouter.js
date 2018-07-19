@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
+const ServiceManagerFactory_1 = require("../providers/ServiceManagerFactory");
 class LogRouter {
     /**
      * Initialize the AdminRouter
@@ -18,11 +19,25 @@ class LogRouter {
         this.init();
     }
     /**
-     * GET all services.
+     * GET all log requests.
      */
     getAll(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            res.send([]);
+            let name = req.params.name;
+            var processedRequests = yield ServiceManagerFactory_1.ServiceManagerFactory.createServiceManager().getProcessedRequests(name);
+            res.send(processedRequests);
+        });
+    }
+    deleteAll(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let name = req.params.name;
+            var result = yield ServiceManagerFactory_1.ServiceManagerFactory.createServiceManager().clearProcessedRequests(name);
+            if (result) {
+                res.status(200).send([]);
+            }
+            else {
+                res.status(500).send([]);
+            }
         });
     }
     /**
@@ -31,6 +46,7 @@ class LogRouter {
      */
     init() {
         this.router.get('/', this.getAll);
+        this.router.delete('/', this.deleteAll);
     }
 }
 exports.LogRouter = LogRouter;

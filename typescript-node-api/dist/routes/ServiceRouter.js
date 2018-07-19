@@ -32,13 +32,13 @@ class ServiceRouter {
                 var serviceManager = ServiceManagerFactory_1.ServiceManagerFactory.createServiceManager();
                 var processInfo = yield serviceManager.getResponse(serviceName, requestData);
                 if (processInfo) {
-                    serviceManager.logRequest(new Date(), 200, processInfo);
+                    serviceManager.logRequest(serviceName, new Date(), 200, processInfo);
                     res.status(200).
                         set({ 'content-type': 'text/xml; charset=utf-8' })
                         .send(processInfo.response);
                 }
                 else {
-                    serviceManager.logRequest(new Date(), 404, new ProcessInfo_1.ProcessInfo(requestData));
+                    serviceManager.logRequest(serviceName, new Date(), 404, new ProcessInfo_1.ProcessInfo(requestData));
                     res.status(404)
                         .send({
                         message: 'no match found.'
@@ -47,7 +47,7 @@ class ServiceRouter {
             }
             catch (error) {
                 debug('error:' + error);
-                serviceManager.logRequest(new Date(), 500, new ProcessInfo_1.ProcessInfo(requestData));
+                serviceManager.logRequest(serviceName, new Date(), 500, new ProcessInfo_1.ProcessInfo(requestData));
                 res.status(500)
                     .send(error);
             }

@@ -9,10 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const Service_1 = require("../model/Service");
-const ProcessInfo_1 = require("../model/ProcessInfo");
+56;
 const glob = require("glob");
 const path = require("path");
 const ServiceFileProvider_1 = require("./ServiceFileProvider");
+const ProcessedRequest_1 = require("../model/ProcessedRequest");
+const ProcessedLogFileManager_1 = require("./ProcessedLogFileManager");
 var debug = require('debug')('servicesfileprovider');
 class ServicesFileProvider {
     getServices() {
@@ -41,29 +43,31 @@ class ServicesFileProvider {
         return __awaiter(this, void 0, void 0, function* () {
             debug('enter:getResponse');
             var serviceProvider = new ServiceFileProvider_1.ServiceFileProvider(name);
-            var response = serviceProvider.getResponse(request);
-            if (response === undefined) {
+            var processInfo = yield serviceProvider.getResponse(request);
+            if (processInfo === undefined) {
                 return null;
             }
-            var processInfo = new ProcessInfo_1.ProcessInfo(request);
-            processInfo.response = yield serviceProvider.getResponse(request);
             return processInfo;
         });
     }
     getDataDirectory() {
         return process.cwd() + path.sep + 'data';
     }
-    logRequest(date, status, processInfo) {
+    logRequest(name, date, status, processInfo) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield new ProcessedLogFileManager_1.ProcessLogFileManager(name).writeLog(new ProcessedRequest_1.ProcessedRequest(date, status, processInfo.request, processInfo.response, processInfo.matches));
+            return true;
+        });
+    }
+    getProcessedRequests(name) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield new ProcessedLogFileManager_1.ProcessLogFileManager(name).getLogs();
+        });
+    }
+    clearProcessedRequests(name) {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve) => {
                 resolve(true);
-            });
-        });
-    }
-    getProcessedRequests() {
-        return __awaiter(this, void 0, void 0, function* () {
-            return new Promise((resolve) => {
-                resolve([]);
             });
         });
     }

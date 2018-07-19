@@ -26,12 +26,12 @@ export class ServiceRouter {
             var serviceManager = ServiceManagerFactory.createServiceManager();
             var processInfo = await serviceManager.getResponse(serviceName, requestData);
             if (processInfo) {
-                serviceManager.logRequest(new Date(), 200, processInfo);
+                serviceManager.logRequest(serviceName, new Date(), 200, processInfo);
                 res.status(200).
                     set({ 'content-type': 'text/xml; charset=utf-8' })
                     .send(processInfo.response)
             } else {
-                serviceManager.logRequest(new Date(), 404, new ProcessInfo(requestData));
+                serviceManager.logRequest(serviceName, new Date(), 404, new ProcessInfo(requestData));
                 res.status(404)
                     .send({
                         message: 'no match found.'
@@ -39,7 +39,7 @@ export class ServiceRouter {
             }
         } catch (error) {
             debug('error:' + error)
-            serviceManager.logRequest(new Date(), 500, new ProcessInfo(requestData));
+            serviceManager.logRequest(serviceName, new Date(), 500, new ProcessInfo(requestData));
             res.status(500)
                 .send(error);
         }

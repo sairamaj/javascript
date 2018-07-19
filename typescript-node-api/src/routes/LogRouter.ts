@@ -16,12 +16,14 @@ export class LogRouter {
    * GET all log requests.
    */
   public async getAll(req: Request, res: Response, next: NextFunction) {
-    var processedRequests = await ServiceManagerFactory.createServiceManager().getProcessedRequests();
+    let name = req.params.name;
+    var processedRequests = await ServiceManagerFactory.createServiceManager().getProcessedRequests(name);
     res.send(processedRequests);
   }
 
   public async deleteAll(req: Request, res: Response) {
-    var result = await ServiceManagerFactory.createServiceManager().clearProcessedRequests();
+    let name = req.params.name;
+    var result = await ServiceManagerFactory.createServiceManager().clearProcessedRequests(name);
     if (result) {
       res.status(200).send([])
     } else {

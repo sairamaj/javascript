@@ -1,11 +1,13 @@
 import { ServiceManager } from '../ServiceManager';
 import { Service } from '../model/Service';
-import { ProcessInfo } from '../model/ProcessInfo';
+import { ProcessInfo } from '../model/ProcessInfo';56
+
 import * as glob from 'glob';
 import * as path from 'path';
 import * as fs from 'fs';
 import { ServiceFileProvider } from './ServiceFileProvider';
 import { ProcessedRequest } from '../model/ProcessedRequest';
+import { ProcessLogFileManager } from './ProcessedLogFileManager';
 var debug = require('debug')('servicesfileprovider')
 
 export class ServicesFileProvider implements ServiceManager {
@@ -35,13 +37,11 @@ export class ServicesFileProvider implements ServiceManager {
         debug('enter:getResponse');
 
         var serviceProvider = new ServiceFileProvider(name);
-        var response = serviceProvider.getResponse(request);
-        if (response === undefined) {
+        var processInfo = await serviceProvider.getResponse(request);
+        if (processInfo === undefined) {
             return null;
         }
 
-        var processInfo = new ProcessInfo(request);
-        processInfo.response = await serviceProvider.getResponse(request);
         return processInfo;
     }
 
@@ -49,22 +49,18 @@ export class ServicesFileProvider implements ServiceManager {
         return process.cwd() + path.sep + 'data';
     }
 
-    public async logRequest(date: Date, status: number, processInfo: ProcessInfo): Promise<boolean> {
+    public async logRequest(name: string, date: Date, status: number, processInfo: ProcessInfo): Promise<boolean> {
+        await new ProcessLogFileManager(name).writeLog(new ProcessedRequest(date,status,processInfo.request,processInfo.response, processInfo.matches));
+        return true;
+    }
+
+    public async getProcessedRequests(name: string): Promise<ProcessedRequest[]> {
+        return await new ProcessLogFileManager(name).getLogs();
+    }
+
+    public async clearProcessedRequests(name: string): Promise<boolean> {
         return new Promise<boolean>((resolve) => {
             resolve(true);
         });
-    }
-
-    public async getProcessedRequests(): Promise<ProcessedRequest[]> {
-        return new Promise<ProcessedRequest[]>((resolve) => {
-            resolve([]);
-        });
-    }
-
-    public async clearProcessedRequests(): Promise<boolean> {
-        return new Promise<boolean>((resolve) => {
-            resolve(true);
-        });
-
     }
 }

@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
 const fs = require("fs");
+const ProcessInfo_1 = require("../model/ProcessInfo");
 var debug = require('debug')('servicefileprovider');
 class ServiceFileProvider {
     constructor(name) {
@@ -49,7 +50,10 @@ class ServiceFileProvider {
                         reject(err);
                     }
                     else {
-                        resolve(data);
+                        var processInfo = new ProcessInfo_1.ProcessInfo(request);
+                        processInfo.response = data;
+                        processInfo.matches = foundConfig.matches;
+                        resolve(processInfo);
                     }
                 });
             });
@@ -57,6 +61,27 @@ class ServiceFileProvider {
     }
     getConfigMap() {
         return null;
+    }
+    logRequest(date, status, processInfo) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve) => {
+                resolve(true);
+            });
+        });
+    }
+    getProcessedRequests() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve) => {
+                resolve([]);
+            });
+        });
+    }
+    clearProcessedRequests() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve) => {
+                resolve(true);
+            });
+        });
     }
     getDataDirectory() {
         return process.cwd() + path.sep + 'data';

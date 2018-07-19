@@ -24,7 +24,7 @@ class LoggerIntance {
         this.Logs = []
     }
 
-    public add(log: ProcessedRequest){
+    public add(log: ProcessedRequest) {
         this.Logs.push(log);
     }
 }
@@ -73,7 +73,7 @@ export class InMemoryProvider implements ServiceManager {
         return processInfo;
     }
 
-    public async logRequest(date: Date, status: number, processInfo: ProcessInfo): Promise<boolean> {
+    public async logRequest(name: string, date: Date, status: number, processInfo: ProcessInfo): Promise<boolean> {
         debug('logRequest.enter')
         return new Promise<boolean>((resolve) => {
             LoggerIntance.getInstance().add(new ProcessedRequest(date, status, processInfo.request, processInfo.response, processInfo.matches))
@@ -81,14 +81,14 @@ export class InMemoryProvider implements ServiceManager {
         });
     }
 
-    public async getProcessedRequests(): Promise<ProcessedRequest[]> {
+    public async getProcessedRequests(name: string): Promise<ProcessedRequest[]> {
         debug('getProcessedRequests.enter')
         return new Promise<ProcessedRequest[]>((resolve) => {
             resolve(LoggerIntance.getInstance().getLogs());
         });
     }
 
-    public async clearProcessedRequests(): Promise<boolean> {
+    public async clearProcessedRequests(name: string): Promise<boolean> {
         return new Promise<boolean>((resolve) => {
             LoggerIntance.getInstance().clear();
             resolve(true);

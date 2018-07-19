@@ -93,17 +93,24 @@ class MongoDbProvider {
             });
         });
     }
-    logRequest(date, status, processInfo) {
+    logRequest(name, date, status, processInfo) {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve) => {
                 resolve(true);
             });
         });
     }
-    getProcessedRequests() {
+    getProcessedRequests(name) {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve) => {
                 resolve([]);
+            });
+        });
+    }
+    clearProcessedRequests(name) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve) => {
+                resolve(true);
             });
         });
     }

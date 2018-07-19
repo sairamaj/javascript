@@ -9,7 +9,29 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const ProcessInfo_1 = require("../model/ProcessInfo");
+const ProcessedRequest_1 = require("../model/ProcessedRequest");
 const debug = require('debug')('inmemoryprovider');
+class LoggerIntance {
+    constructor() {
+        this.Logs = [];
+    }
+    static getInstance() {
+        if (!LoggerIntance.instance) {
+            LoggerIntance.instance = new LoggerIntance();
+            // ... any one time initialization goes here ...
+        }
+        return LoggerIntance.instance;
+    }
+    getLogs() {
+        return this.Logs;
+    }
+    clear() {
+        this.Logs = [];
+    }
+    add(log) {
+        this.Logs.push(log);
+    }
+}
 class InMemoryProvider {
     constructor() {
         this.TestData = require('../../testdata/testdata1');
@@ -51,17 +73,28 @@ class InMemoryProvider {
             return processInfo;
         });
     }
-    logRequest(date, status, processInfo) {
+    logRequest(name, date, status, processInfo) {
         return __awaiter(this, void 0, void 0, function* () {
+            debug('logRequest.enter');
             return new Promise((resolve) => {
+                LoggerIntance.getInstance().add(new ProcessedRequest_1.ProcessedRequest(date, status, processInfo.request, processInfo.response, processInfo.matches));
                 resolve(true);
             });
         });
     }
-    getProcessedRequests() {
+    getProcessedRequests(name) {
+        return __awaiter(this, void 0, void 0, function* () {
+            debug('getProcessedRequests.enter');
+            return new Promise((resolve) => {
+                resolve(LoggerIntance.getInstance().getLogs());
+            });
+        });
+    }
+    clearProcessedRequests(name) {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve) => {
-                resolve([]);
+                LoggerIntance.getInstance().clear();
+                resolve(true);
             });
         });
     }

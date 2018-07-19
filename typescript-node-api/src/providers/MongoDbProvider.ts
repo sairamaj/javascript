@@ -89,19 +89,19 @@ export class MongoDbProvider implements ServiceManager {
         });
     }
 
-    public async logRequest(date: Date, status: number, processInfo: ProcessInfo): Promise<boolean> {
+    public async logRequest(name: string, date: Date, status: number, processInfo: ProcessInfo): Promise<boolean> {
         return new Promise<boolean>((resolve) => {
             resolve(true);
         });
     }
 
-    public async getProcessedRequests(): Promise<ProcessedRequest[]> {
+    public async getProcessedRequests(name: string): Promise<ProcessedRequest[]> {
         return new Promise<ProcessedRequest[]>((resolve) => {
             resolve([]);
         });
     }
 
-    public async clearProcessedRequests(): Promise<boolean> {
+    public async clearProcessedRequests(name: string): Promise<boolean> {
         return new Promise<boolean>((resolve) => {
             resolve(true);
         });
