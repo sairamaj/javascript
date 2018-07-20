@@ -19,7 +19,7 @@ export class HostDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._hostService.getHostDetails(this.name)
+    this._hostService.getServiceDetails(this.name)
       .subscribe(responseMaps => this.responseMaps = responseMaps,
         error => this.errorMessage = <any>error)
   }

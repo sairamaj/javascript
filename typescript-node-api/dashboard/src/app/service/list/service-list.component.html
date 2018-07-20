@@ -2,6 +2,7 @@
     Error: {{ errorMessage }}
 </div>
 
+
 <div class='panel panel-primary'>
     <div class='panel-heading'>
         {{pageTitle}}
@@ -14,10 +15,10 @@
             </thead>
 
             <tbody>
-                <tr *ngFor='let host of hosts'>
+                <tr *ngFor='let service of services'>
                     <td>
-                        <a [routerLink]="['/hosts', host.name]">
-                            {{ host.name }}
+                        <a [routerLink]="['/services', service.name]">
+                            {{ service.name }}
                         </a>
                     </td>
                 </tr>

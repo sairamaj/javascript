@@ -37,12 +37,13 @@ function onError(error) {
             process.exit(1);
             break;
         default:
-            console.log('in default throwin error.');
+            console.log('in default throwing error.');
             throw error;
     }
 }
 function onListening() {
     let addr = server.address();
     let bind = (typeof addr === 'string') ? `pipe ${addr}` : `port ${addr.port}`;
-    debug(`Listening on ${bind}`);
+    console.log(`Listening on ${bind}`);
+    console.log(`provider: ` + config.app.provider);
 }

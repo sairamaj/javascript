@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms'
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router'
 import { AppComponent } from './app.component';
-import { HostComponent } from './host/host-list.components';
-import { HostDetailComponent } from './host/host-detail.component';
+import { ServiceListComponent } from './service/list/service-list.components';
+import { ServiceDetailComponent } from './service/detail/service-detail.component';
 import { HostDetailResponseComponent } from './host/host-detail-response.component';
 import { HostDetailRequestComponent } from './host/host-detail-request.component';
 import { HostTestComponent } from './host/host-test.component';
@@ -17,8 +17,8 @@ import { XmlPipe } from './XmlPipe'
 @NgModule({
   declarations: [
     AppComponent,
-    HostComponent,
-    HostDetailComponent,
+    ServiceListComponent,
+    ServiceDetailComponent,
     HostDetailResponseComponent,
     HostDetailRequestComponent,
     HostTestComponent,
@@ -32,17 +32,17 @@ import { XmlPipe } from './XmlPipe'
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: 'hosts', component: HostComponent },
+      { path: 'services', component: ServiceListComponent },
       { path: 'hosts/:name/newresponse', component: HostNewresponseComponent },
       { path: 'hosts/:name/newresponse/:mapname', component: HostNewresponseComponent },
       { path: 'hosts/:name/:mapname/test', component: HostTestComponent },
-      { path: 'hosts/:name', component: HostDetailComponent },
+      { path: 'services/:name', component: ServiceDetailComponent },
       { path: 'hosts/:name/details/response/:file', component: HostDetailResponseComponent },
       { path: 'hosts/:name/details/request/:file', component: HostDetailRequestComponent },
       { path: 'hosts/:name/servedrequests', component: HostServedrequestsComponent },
       { path: 'hosts/:name/servedrequests/:file', component: HostViewServedRequestComponent },
-      { path: '', component: HostComponent },
-      { path: '*', component: HostComponent },
+      { path: '', component: ServiceListComponent },
+      { path: '*', component: ServiceListComponent },
     ])
   ],
   providers: [],

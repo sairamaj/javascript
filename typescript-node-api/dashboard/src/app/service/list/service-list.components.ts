@@ -1,26 +1,26 @@
 import {Component, OnInit} from '@angular/core'
-import { HostService } from './host-service';
-import { IHost } from './host';
+import { HostService } from '../../host/host-service';
+import { IHost } from '../../host/host';
 import { map, tap, catchError } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http'
+import { IService } from '../../models/IService';
 @Component(
     {
         selector : 'sim-hosts',
-        templateUrl : './host-list.component.html',
-        styleUrls: ['./host-list.component.css']
+        templateUrl : './service-list.component.html',
+        styleUrls: ['./service-list.component.css']
     }    
 )
 
+export class ServiceListComponent implements OnInit{
 
-export class HostComponent implements OnInit{
-
-    hosts : IHost[] = [];
+    services : IService[] = [];
     errorMessage : string;
     pageTitle : string = 'Hosts'
 
     ngOnInit(): void {
-        this._hostService.getHosts()
-        .subscribe(result => this.hosts = result,
+        this._hostService.getServices()
+        .subscribe(result => this.services = result,
             error => this.errorMessage = <any>error )
     }
 

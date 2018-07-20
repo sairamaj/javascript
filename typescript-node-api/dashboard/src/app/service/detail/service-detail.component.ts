@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IResponseMap } from './responsemap';
-import { HostService } from './host-service';
+import { IResponseMap } from '../../host/responsemap';
+import { HostService } from '../../host/host-service';
 
 @Component({
   selector: 'app-host.detail',
-  templateUrl: './host-detail.component.html',
-  styleUrls: ['./host-detail.component.css']
+  templateUrl: './service-detail.component.html',
+  styleUrls: ['./service-detail.component.css']
 })
-export class HostDetailComponent implements OnInit {
+export class ServiceDetailComponent implements OnInit {
 
   name: string;
   responseMaps: IResponseMap[];
@@ -20,7 +20,7 @@ export class HostDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this._hostService.getHostDetails(this.name)
+    this._hostService.getServiceDetails(this.name)
       .subscribe(responseMaps => this.responseMaps = responseMaps,
         error => this.errorMessage = <any>error)
   }

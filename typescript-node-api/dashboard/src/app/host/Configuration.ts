@@ -6,11 +6,11 @@ export class Config {
     constructor(){
         this.baseUrl = 'http://localhost:3000'
         //this.baseUrl = ''
-        this.getHostsUrl = this.baseUrl + '/admin/api/hosts'
+        this.getHostsUrl = this.baseUrl + '/api/v1/admin/services'
     }
 
-    getHostDetailsUrl(name:string): string{
-        return this.baseUrl + '/admin/api/hosts/' + name
+    getServiceDetailsUrl(name:string): string{
+        return this.baseUrl + this.getHostsUrl + '/' + name
     }
 
     getHostResponseFileUrl(name:string, file: string) : string{

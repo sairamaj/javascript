@@ -7,10 +7,11 @@ import { map, tap, catchError } from 'rxjs/operators';
 import { IResponseMap } from "./responsemap";
 import { SimulatedResponseData } from "./SimulatedResponseData";
 import { HostLastRequest } from "./hostlastrequest";
-import { Config } from "src/app/host/Configuration";
+import { Config } from "./Configuration";
 import { hostResponseData } from "./hostResponseData";
 import { MapDetail } from "./MapDetail";
 import { ServedRequests } from "./ServedRequest";
+import { IService } from "../models/IService";
 
 
 
@@ -21,14 +22,14 @@ export class HostService {
         this.Configuration = new Config()
     }
 
-    getHosts(): Observable<IHost[]> {
-        return this._http.get<IHost[]>(this.Configuration.getHostsUrl).pipe(
+    getServices(): Observable<IService[]> {
+        return this._http.get<IService[]>(this.Configuration.getHostsUrl).pipe(
             tap(data => console.log('All: ' + JSON.stringify(data))),
             catchError(this.handleError), );
     }
 
-    getHostDetails(name: string): Observable<IResponseMap[]> {
-        return this._http.get<IResponseMap[]>(this.Configuration.getHostDetailsUrl(name)).pipe(
+    getServiceDetails(name: string): Observable<IResponseMap[]> {
+        return this._http.get<IResponseMap[]>(this.Configuration.getServiceDetailsUrl(name)).pipe(
             tap(data => console.log('All: ' + JSON.stringify(data))),
             catchError(this.handleError), );
     }
