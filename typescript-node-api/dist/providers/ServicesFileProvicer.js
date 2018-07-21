@@ -39,6 +39,11 @@ class ServicesFileProvider {
             return services.find(s => s.name == name);
         });
     }
+    getMapDetail(name, mapName) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return null;
+        });
+    }
     getResponse(name, request) {
         return __awaiter(this, void 0, void 0, function* () {
             debug('enter:getResponse');

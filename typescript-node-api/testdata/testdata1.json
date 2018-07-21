@@ -5,6 +5,7 @@
                 "matches": [
                     "request_1"
                 ],
+                "request" : "request_1 here",
                 "response": "<xml>service1_response_1</xml>"
             },
             {

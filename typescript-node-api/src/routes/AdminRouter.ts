@@ -63,9 +63,8 @@ export class AdminRouter {
     let serviceName = req.params.name;
     let mapName = req.params.mapName;
 
-    // return new Promise<MapDetail>((resolve, reject) => {
-    //   resolve(new MapDetail("map1", "request here", "response here", ["match1", "match2"]));
-    // });
+    var result = await ServiceManagerFactory.createServiceManager().getMapDetail(serviceName, mapName)
+    res.send(result)
   }
 
   /**

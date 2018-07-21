@@ -8,6 +8,7 @@ import * as fs from 'fs';
 import { ServiceFileProvider } from './ServiceFileProvider';
 import { ProcessedRequest } from '../model/ProcessedRequest';
 import { ProcessLogFileManager } from './ProcessedLogFileManager';
+import { MapDetail } from '../model/MapDetail';
 var debug = require('debug')('servicesfileprovider')
 
 export class ServicesFileProvider implements ServiceManager {
@@ -33,6 +34,10 @@ export class ServicesFileProvider implements ServiceManager {
         return services.find(s => s.name == name);
     }
 
+    public async getMapDetail(name: string, mapName: string) : Promise<MapDetail>{
+        return null;
+    }
+    
     public async getResponse(name: string, request: string): Promise<ProcessInfo> {
         debug('enter:getResponse');
 

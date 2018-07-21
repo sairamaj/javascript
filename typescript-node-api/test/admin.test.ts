@@ -53,3 +53,23 @@ describe('GET api/v1/admin/services/:name', () => {
       })
   })
 })
+
+describe('GET api/v1/admin/services/:name/maps/:mapName', () => {
+
+  it.only('responds with map detrails', () => {
+    return chai.request(app).get('/api/v1/admin/services/service1/maps/request_1')
+      .then(res => {
+        expect(res.status).to.equal(200)
+        expect(res).to.be.json
+        let map = res.body
+        expect(map.name).to.equal('request_1')
+        expect(map.request).to.equal('request_1 here')
+        expect(map.response).to.equal('<xml>service1_response_1</xml>')
+        expect(map.matches).to.not.be.undefined
+        expect(map.matches.length).to.equal(1)
+        expect(map.matches[0]).to.equal('request_1')
+      })
+  })
+})
+
+

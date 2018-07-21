@@ -6,6 +6,7 @@ import { LogRequestSchema } from '../model/LogRequestSchema';
 import { ProcessInfo } from '../model/ProcessInfo';
 import * as mongoose from "mongoose";
 import { ProcessedRequest } from '../model/ProcessedRequest';
+import { MapDetail } from '../model/MapDetail';
 const debug = require('debug')('mongodbprovider')
 
 const ServiceDbSchema = mongoose.model('services', ServiceSchema);
@@ -30,6 +31,10 @@ export class MongoDbProvider implements ServiceManager {
         return undefined;
     }
 
+    public async getMapDetail(name: string, mapName: string) : Promise<MapDetail>{
+        return null;
+    }
+    
     public async getResponse(name: string, request: string): Promise<ProcessInfo> {
         debug('enter getResponse: ' + name)
         var service = await this.getService(name);

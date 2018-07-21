@@ -34,7 +34,7 @@ export class Config {
     }
 
     getMapDetailUrl(serviceName: string, mapName: string) {
-        return this.getHostsUrl + '/' + serviceName + '/map/' + mapName;
+        return this.getHostsUrl + '/' + serviceName + '/maps/' + mapName;
     }
 
     getServedRequests(hostName: string) {

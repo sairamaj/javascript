@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const ProcessInfo_1 = require("../model/ProcessInfo");
 const ProcessedRequest_1 = require("../model/ProcessedRequest");
+const MapDetail_1 = require("../model/MapDetail");
 const debug = require('debug')('inmemoryprovider');
 class LoggerIntance {
     constructor() {
@@ -47,6 +48,22 @@ class InMemoryProvider {
         return __awaiter(this, void 0, void 0, function* () {
             var services = yield this.getServices();
             return services.find(h => h.name == name);
+        });
+    }
+    getMapDetail(name, mapName) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve) => {
+                var service = this.TestData.find(s => s.name === name);
+                if (service === undefined) {
+                    resolve(undefined);
+                }
+                var mapInfo = service.config.find(c => c.name === mapName);
+                if (mapInfo === undefined) {
+                    resolve(undefined);
+                }
+                var mapDetail = new MapDetail_1.MapDetail(mapInfo.name, mapInfo.request, mapInfo.response, mapInfo.matches);
+                resolve(mapDetail);
+            });
         });
     }
     getResponse(name, request) {
