@@ -57,8 +57,8 @@ export class HostService {
 
     addNewResponse(hostName: string, info: SimulatedResponseData): Observable<any> {
         const addUrl = this.Configuration.getAddNewResponseUrl(hostName);
-        console.log('posting to:' + addUrl)
-        console.log('adding info:' + JSON.stringify(info))
+        console.log('posting to:' + addUrl);
+        console.log('adding info:' + JSON.stringify(info));
         return this._http.post<string>(addUrl, info)
             .pipe(tap(data => console.log('received')),
                 catchError(this.handleError));

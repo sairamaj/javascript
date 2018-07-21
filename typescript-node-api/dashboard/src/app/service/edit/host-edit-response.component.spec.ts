@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HostNewresponseComponent } from './host-newresponse.component';
+import { ServiceEditResponseComponent } from './service-edit-response.component';
 
 describe('HostNewresponseComponent', () => {
-  let component: HostNewresponseComponent;
-  let fixture: ComponentFixture<HostNewresponseComponent>;
+  let component: ServiceEditResponseComponent;
+  let fixture: ComponentFixture<ServiceEditResponseComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HostNewresponseComponent ]
+      declarations: [ ServiceEditResponseComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HostNewresponseComponent);
+    fixture = TestBed.createComponent(ServiceEditResponseComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

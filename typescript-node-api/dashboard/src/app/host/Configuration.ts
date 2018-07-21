@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http';
 
 export class Config {
     baseUrl: string;
@@ -33,8 +33,8 @@ export class Config {
         return this.baseUrl + '/admin/api/hosts/' + name + '/lastrequests';
     }
 
-    getMapDetailUrl(hostName: string, mapName: string) {
-        return this.baseUrl + '/admin/api/hosts/' + hostName + '/map/' + mapName;
+    getMapDetailUrl(serviceName: string, mapName: string) {
+        return this.getHostsUrl + '/' + serviceName + '/map/' + mapName;
     }
 
     getServedRequests(hostName: string) {

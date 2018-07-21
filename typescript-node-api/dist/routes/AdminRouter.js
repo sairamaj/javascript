@@ -10,6 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const ServiceManagerFactory_1 = require("../providers/ServiceManagerFactory");
+const debugx = require("debug");
+let debug = debugx('adminrouter');
 class AdminRouter {
     /**
      * Initialize the AdminRouter
@@ -65,6 +67,16 @@ class AdminRouter {
             }
         });
     }
+    getMapDetails(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            debug('enter getMapDetail.');
+            let serviceName = req.params.name;
+            let mapName = req.params.mapName;
+            // return new Promise<MapDetail>((resolve, reject) => {
+            //   resolve(new MapDetail("map1", "request here", "response here", ["match1", "match2"]));
+            // });
+        });
+    }
     /**
      * Take each handler, and attach to one of the Express.Router's
      * endpoints.
@@ -74,6 +86,7 @@ class AdminRouter {
         this.router.get('/:name', this.getOne);
         this.router.get('/:name/processedrequests', this.getProcessedRequests);
         this.router.delete('/:name/processedrequests', this.deleteProcessedRequests);
+        this.router.get('/:name/maps/:mapName', this.getMapDetails);
     }
 }
 exports.AdminRouter = AdminRouter;

@@ -3,7 +3,7 @@ export class MapDetail {
         public name: string,
         public request: string,
         public response: string,
-        public matches: string[]
+        public matches: string[],
     ) {
     }
 }

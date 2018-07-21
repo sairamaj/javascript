@@ -1,5 +1,9 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { ServiceManagerFactory } from '../providers/ServiceManagerFactory';
+import { MapDetail } from '../model/MapDetail';
+import { resolve } from 'path';
+import debugx = require('debug');
+let debug = debugx('adminrouter');
 
 export class AdminRouter {
   router: Router
@@ -53,7 +57,17 @@ export class AdminRouter {
       res.status(500).send([])
     }
   }
-  
+
+  public async getMapDetails(req: Request, res: Response) {
+    debug('enter getMapDetail.')
+    let serviceName = req.params.name;
+    let mapName = req.params.mapName;
+
+    // return new Promise<MapDetail>((resolve, reject) => {
+    //   resolve(new MapDetail("map1", "request here", "response here", ["match1", "match2"]));
+    // });
+  }
+
   /**
    * Take each handler, and attach to one of the Express.Router's
    * endpoints.
@@ -63,6 +77,8 @@ export class AdminRouter {
     this.router.get('/:name', this.getOne)
     this.router.get('/:name/processedrequests', this.getProcessedRequests)
     this.router.delete('/:name/processedrequests', this.deleteProcessedRequests)
+    this.router.get('/:name/maps/:mapName', this.getMapDetails)
+
   }
 
 }
