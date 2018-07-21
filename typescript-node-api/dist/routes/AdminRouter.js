@@ -36,11 +36,7 @@ class AdminRouter {
             var service = yield ServiceManagerFactory_1.ServiceManagerFactory.createServiceManager().getService(name);
             if (service) {
                 res.status(200)
-                    .send({
-                    message: 'Success',
-                    status: res.status,
-                    service
-                });
+                    .send(service);
             }
             else {
                 res.status(404)

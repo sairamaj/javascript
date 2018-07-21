@@ -1,63 +1,62 @@
-import { Injectable } from "@angular/core";
-import { IHost } from './host'
-import { HttpClient } from '@angular/common/http'
+import { Injectable } from '@angular/core';
+import { IHost } from './host';
+import { HttpClient } from '@angular/common/http';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
-import { Observable, throwError, Observer } from 'rxjs'
+import { Observable, throwError, Observer } from 'rxjs';
 import { map, tap, catchError } from 'rxjs/operators';
-import { IResponseMap } from "./responsemap";
-import { SimulatedResponseData } from "./SimulatedResponseData";
-import { HostLastRequest } from "./hostlastrequest";
-import { Config } from "./Configuration";
-import { hostResponseData } from "./hostResponseData";
-import { MapDetail } from "./MapDetail";
-import { ServedRequests } from "./ServedRequest";
-import { IService } from "../models/IService";
-
+import { IResponseMap } from './responsemap';
+import { SimulatedResponseData } from './SimulatedResponseData';
+import { HostLastRequest } from './hostlastrequest';
+import { Config } from './Configuration';
+import { hostResponseData } from './hostResponseData';
+import { MapDetail } from './MapDetail';
+import { ServedRequests } from './ServedRequest';
+import { Service } from '../models/Service';
 
 
 @Injectable()
 export class HostService {
     Configuration: Config;
     constructor(private _http: HttpClient, private _location: Location) {
-        this.Configuration = new Config()
+        this.Configuration = new Config();
     }
 
-    getServices(): Observable<IService[]> {
-        return this._http.get<IService[]>(this.Configuration.getHostsUrl).pipe(
+    getServices(): Observable<Service[]> {
+        return this._http.get<Service[]>(this.Configuration.getHostsUrl).pipe(
             tap(data => console.log('All: ' + JSON.stringify(data))),
             catchError(this.handleError), );
     }
 
-    getServiceDetails(name: string): Observable<IResponseMap[]> {
-        return this._http.get<IResponseMap[]>(this.Configuration.getServiceDetailsUrl(name)).pipe(
+    getServiceDetails(name: string): Observable<Service> {
+        console.log('getServiceDetails url:' + this.Configuration.getServiceDetailsUrl(name));
+        return this._http.get<Service>(this.Configuration.getServiceDetailsUrl(name)).pipe(
             tap(data => console.log('All: ' + JSON.stringify(data))),
             catchError(this.handleError), );
     }
 
     getHostResponseFileContent(name: string, file: string): Observable<string> {
-
-        var responseInfoUrl = this.Configuration.getHostResponseFileUrl(name, file)
+        const responseInfoUrl = this.Configuration.getHostResponseFileUrl(name, file);
         return this._http.get<string>(responseInfoUrl).pipe(
             tap(data => console.log('All: ' + JSON.stringify(data))),
             catchError(this.handleError), );
     }
 
     getHostRequestFileContent(name: string, mapName: string): Observable<string> {
-        var requestInfoUrl = this.Configuration.getHostRequestFileUrl(name, mapName)
+        const requestInfoUrl = this.Configuration.getHostRequestFileUrl(name, mapName);
         return this._http.get<string>(requestInfoUrl).pipe(
             tap(data => console.log('All: ' + JSON.stringify(data))),
             catchError(this.handleError), );
     }
 
     submitRequest(host: string, request: string): Observable<hostResponseData> {
-        var requestProcessingUrl = this.Configuration.getHostSimulatorUrl(host)
+        const requestProcessingUrl = this.Configuration.getHostSimulatorUrl(host);
         return this._http.post<hostResponseData>(requestProcessingUrl, request)
             .pipe(tap(data => console.log('received:' + data.code)),
                 catchError(this.handleError));
     }
 
     addNewResponse(hostName: string, info: SimulatedResponseData): Observable<any> {
-        var addUrl = this.Configuration.getAddNewResponseUrl(hostName)
+        const addUrl = this.Configuration.getAddNewResponseUrl(hostName);
         console.log('posting to:' + addUrl)
         console.log('adding info:' + JSON.stringify(info))
         return this._http.post<string>(addUrl, info)
@@ -66,21 +65,21 @@ export class HostService {
     }
 
     getMapDetail(hostName: string, mapName: string): Observable<MapDetail> {
-        var mapDetailUrl = this.Configuration.getMapDetailUrl(hostName, mapName)
+        const mapDetailUrl = this.Configuration.getMapDetailUrl(hostName, mapName);
         return this._http.get<MapDetail>(mapDetailUrl).pipe(
             tap(data => console.log('All: ' + JSON.stringify(data))),
             catchError(this.handleError), );
     }
 
     getLastRequests(hostName): Observable<ServedRequests[]> {
-        var servedRequestUrl = this.Configuration.getServedRequests(hostName)
+        const servedRequestUrl = this.Configuration.getServedRequests(hostName);
         return this._http.get<ServedRequests[]>(servedRequestUrl).pipe(
             tap(data => console.log('getLastRequests:')),
             catchError(this.handleError), );
     }
 
     getServedRequest(hostName, fileName): Observable<ServedRequests> {
-        var servedRequestUrl = this.Configuration.getServedRequest(hostName, fileName)
+        const servedRequestUrl = this.Configuration.getServedRequest(hostName, fileName);
         return this._http.get<ServedRequests>(servedRequestUrl).pipe(
             tap(data => console.log('getLastRequests:')),
             catchError(this.handleError), );
@@ -93,12 +92,11 @@ export class HostService {
         if (err.error instanceof Error) {
             // A client-side or network error occurred. Handle it accordingly.
             errorMessage = `An error occurred: ${err.error.message}`;
-        }
-        else {
+        } else {
             // The backend returned an unsuccessful response code.
             // The response body may contain clues as to what went wrong,
-            var additionalMessage = JSON.stringify(err.error.status, null, '\t')
-            errorMessage = `Server returned code: ${err.status}, 
+            const additionalMessage = JSON.stringify(err.error, null, '\t');
+            errorMessage = `Server returned code: ${err},
                     error message is: ${err.message}
                     additional info: ${additionalMessage}`;
         }

@@ -28,11 +28,7 @@ export class AdminRouter {
     var service = await ServiceManagerFactory.createServiceManager().getService(name)
     if (service) {
       res.status(200)
-        .send({
-          message: 'Success',
-          status: res.status,
-          service
-        });
+        .send(service);
     }
     else {
       res.status(404)
