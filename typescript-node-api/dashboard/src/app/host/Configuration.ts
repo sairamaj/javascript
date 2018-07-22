@@ -37,12 +37,12 @@ export class Config {
         return this.adminApiUrl + '/' + serviceName + '/maps/' + mapName;
     }
 
-    getServedRequests(hostName: string) {
-        return this.baseUrl + '/admin/api/hosts/' + hostName + '/servedrequests/';
+    getServedRequests(serviceName: string) {
+        return this.adminApiUrl + '/' + serviceName + '/processedrequests';
     }
 
-    getServedRequest(hostName: string, fileName: string) {
-        return this.baseUrl + '/admin/api/hosts/' + hostName + '/servedrequests/' + fileName + '/';
+    getServedRequest(serviceName: string, fileName: string) {
+        return this.adminApiUrl + serviceName + '/servedrequests/' + fileName + '/';
     }
 }
 

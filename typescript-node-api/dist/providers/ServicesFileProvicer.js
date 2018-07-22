@@ -27,7 +27,10 @@ class ServicesFileProvider {
                     reject(err);
                 }
                 else {
-                    resolve(dirs.map(d => new Service_1.Service(d.split('/').slice(-1)[0], [])));
+                    resolve(dirs.map(d => {
+                        var name = d.split('/').slice(-1)[0];
+                        return new Service_1.Service(name, new ServiceFileProvider_1.ServiceFileProvider(name).getConfigMap());
+                    }));
                 }
             });
         });
@@ -41,7 +44,8 @@ class ServicesFileProvider {
     }
     getMapDetail(name, mapName) {
         return __awaiter(this, void 0, void 0, function* () {
-            return null;
+            var serviceProvider = new ServiceFileProvider_1.ServiceFileProvider(name);
+            return yield serviceProvider.getMapDetail(mapName);
         });
     }
     getResponse(name, request) {

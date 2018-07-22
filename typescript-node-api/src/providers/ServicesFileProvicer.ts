@@ -1,6 +1,6 @@
 import { ServiceManager } from '../ServiceManager';
 import { Service } from '../model/Service';
-import { ProcessInfo } from '../model/ProcessInfo';56
+import { ProcessInfo } from '../model/ProcessInfo'; 56
 
 import * as glob from 'glob';
 import * as path from 'path';
@@ -22,7 +22,11 @@ export class ServicesFileProvider implements ServiceManager {
                 if (err) {
                     reject(err);
                 } else {
-                    resolve(dirs.map(d => new Service(d.split('/').slice(-1)[0], [])));
+
+                    resolve(dirs.map(d => {
+                        var name = d.split('/').slice(-1)[0]
+                        return new Service(name, new ServiceFileProvider(name).getConfigMap())
+                    }));
                 }
             });
         });
@@ -34,10 +38,11 @@ export class ServicesFileProvider implements ServiceManager {
         return services.find(s => s.name == name);
     }
 
-    public async getMapDetail(name: string, mapName: string) : Promise<MapDetail>{
-        return null;
+    public async getMapDetail(name: string, mapName: string): Promise<MapDetail> {
+        var serviceProvider = new ServiceFileProvider(name);
+        return await serviceProvider.getMapDetail(mapName);
     }
-    
+
     public async getResponse(name: string, request: string): Promise<ProcessInfo> {
         debug('enter:getResponse');
 
@@ -55,7 +60,7 @@ export class ServicesFileProvider implements ServiceManager {
     }
 
     public async logRequest(name: string, date: Date, status: number, processInfo: ProcessInfo): Promise<boolean> {
-        await new ProcessLogFileManager(name).writeLog(new ProcessedRequest(date,status,processInfo.request,processInfo.response, processInfo.matches));
+        await new ProcessLogFileManager(name).writeLog(new ProcessedRequest(date, status, processInfo.request, processInfo.response, processInfo.matches));
         return true;
     }
 

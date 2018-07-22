@@ -55,7 +55,7 @@ describe('GET api/v1/admin/services/:name', () => {
 
 describe('GET api/v1/admin/services/:name/maps/:mapName', () => {
 
-  it('responds with map detrails', () => {
+  it('responds with map details', () => {
     return chai.request(app).get('/api/v1/admin/services/service1/maps/request_1')
       .then(res => {
         expect(res.status).to.equal(200)
@@ -72,7 +72,6 @@ describe('GET api/v1/admin/services/:name/maps/:mapName', () => {
 })
 
 describe('POST api/v1/admin/services/:name/test', () => {
-
   it('responds with post data', () => {
     return chai.request(app).post('/api/v1/admin/services/service1/test').send(' this is request_1 data')
       .then(res => {

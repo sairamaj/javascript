@@ -52,7 +52,6 @@ class App {
   // Configure API endpoints.
   private routes(): void {
     let router = express.Router();
-    //this.express.use('/api/v1/admin/services/:name/processedrequests', LogRouter)
     this.express.use('/api/v1/admin/services', AdminRouter);
     this.express.all("*", ServiceRouter);
   }
