@@ -19,7 +19,7 @@
                 <tr>
                     <td>
                         <div class="form-group">
-                          <textarea class="form-control" [ngModel]="request.data | xml" (ngModelChange)="request.data=$event" name="inputField" rows="35" cols="60">
+                          <textarea class="form-control" [ngModel]="request | xml" (ngModelChange)="request=$event" name="inputField" rows="35" cols="60">
                             </textarea>
                         </div>
                     </td>

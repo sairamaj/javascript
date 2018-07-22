@@ -71,5 +71,3 @@ describe('GET api/v1/admin/services/:name/maps/:mapName', () => {
       })
   })
 })
-
-

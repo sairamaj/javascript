@@ -9,7 +9,7 @@ import { SimulatedResponseData } from './SimulatedResponseData';
 import { HostLastRequest } from './hostlastrequest';
 import { Config } from './Configuration';
 import { hostResponseData } from './hostResponseData';
-import { MapDetail } from './MapDetail';
+import { MapDetail } from '../models/MapDetail';
 import { ServedRequests } from './ServedRequest';
 import { Service } from '../models/Service';
 

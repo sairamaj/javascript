@@ -1,14 +1,15 @@
+import { MapDetail } from '../../models/MapDetail';
 import { Component, OnInit } from '@angular/core';
-import { HostService } from './host-service';
+import { HostService } from '../../host/host-service';
 import { ActivatedRoute } from '@angular/router';
-import { hostResponseData } from './hostResponseData';
+import { hostResponseData } from '../../host/hostResponseData';
 
 @Component({
   selector: 'app-host-test',
-  templateUrl: './host-test.component.html',
-  styleUrls: ['./host-test.component.css']
+  templateUrl: './service-test.component.html',
+  styleUrls: ['./service-test.component.css']
 })
-export class HostTestComponent implements OnInit {
+export class ServiceTestComponent implements OnInit {
   response: hostResponseData
   name: string;
   mapname: string
@@ -28,8 +29,9 @@ export class HostTestComponent implements OnInit {
     this._request = value;
   }
   ngOnInit() {
-    this._hostService.getHostRequestFileContent(this.name, this.mapname)
-      .subscribe(response => this.request = response,
+    this._hostService.getMapDetail(this.name, this.mapname)
+      .subscribe(mapDetail =>
+        this.request = mapDetail.request,
         error => this.errorMessage = <any>error)
   }
 
