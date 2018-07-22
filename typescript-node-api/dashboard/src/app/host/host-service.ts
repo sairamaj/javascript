@@ -22,7 +22,7 @@ export class HostService {
     }
 
     getServices(): Observable<Service[]> {
-        return this._http.get<Service[]>(this.Configuration.getHostsUrl).pipe(
+        return this._http.get<Service[]>(this.Configuration.adminApiUrl).pipe(
             tap(data => console.log('All: ' + JSON.stringify(data))),
             catchError(this.handleError), );
     }

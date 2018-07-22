@@ -2,15 +2,15 @@ import { HttpClient } from '@angular/common/http';
 
 export class Config {
     baseUrl: string;
-    getHostsUrl: string;
+    adminApiUrl: string;
     constructor() {
         this.baseUrl = 'http://localhost:3000';
         // this.baseUrl = ''
-        this.getHostsUrl = this.baseUrl + '/api/v1/admin/services';
+        this.adminApiUrl = this.baseUrl + '/api/v1/admin/services';
     }
 
     getServiceDetailsUrl(name: string): string {
-        return this.getHostsUrl + '/' + name;
+        return this.adminApiUrl + '/' + name;
     }
 
     getHostResponseFileUrl(name: string, file: string): string {
@@ -22,7 +22,7 @@ export class Config {
     }
 
     getHostSimulatorUrl(name: string): string {
-        return this.baseUrl + '/admin/api/' + name;
+        return this.adminApiUrl + '/' + name + '/test'
     }
 
     getAddNewResponseUrl(name: string): string {
@@ -34,7 +34,7 @@ export class Config {
     }
 
     getMapDetailUrl(serviceName: string, mapName: string) {
-        return this.getHostsUrl + '/' + serviceName + '/maps/' + mapName;
+        return this.adminApiUrl + '/' + serviceName + '/maps/' + mapName;
     }
 
     getServedRequests(hostName: string) {

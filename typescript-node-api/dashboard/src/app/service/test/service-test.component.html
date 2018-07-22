@@ -31,7 +31,7 @@
                                 <tr>
                                         <div class="form-group">
                                                 <textarea class="form-control" rows="1" cols="60">
-                                                    {{response.code}}
+                                                    {{testResponse.status}}
                                                   </textarea>
                                             </div>
         
@@ -39,7 +39,7 @@
                                 <tr>
                                     <div class="form-group">
                                             <textarea class="form-control" rows="1" cols="60">
-                                                {{response.matches}}
+                                                {{testResponse.matches}}
                                               </textarea>
                                         </div>
     
@@ -48,7 +48,7 @@
                                 <td>
                                     <div class="form-group">
                                         <textarea class="form-control" rows="30" cols="60">
-                                            {{response.data | xml}}
+                                            {{testResponse.response | xml}}
                                           </textarea>
                                     </div>
                                 </td>

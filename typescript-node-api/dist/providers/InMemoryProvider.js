@@ -85,7 +85,7 @@ class InMemoryProvider {
             }
             debug('foundConfig:' + JSON.stringify(foundConfig));
             var processInfo = new ProcessInfo_1.ProcessInfo(request);
-            processInfo.matches = [];
+            processInfo.matches = foundConfig.matches;
             processInfo.response = foundConfig.response;
             return processInfo;
         });

@@ -10,7 +10,7 @@ import { hostResponseData } from '../../host/hostResponseData';
   styleUrls: ['./service-test.component.css']
 })
 export class ServiceTestComponent implements OnInit {
-  response: hostResponseData
+  testResponse: hostResponseData
   name: string;
   mapname: string
   _request: string
@@ -38,9 +38,9 @@ export class ServiceTestComponent implements OnInit {
   onSubmit(): void {
     console.log('submitting...')
     this.errorMessage = null
-    this.response = null
+    this.testResponse = null
     this._hostService.submitRequest(this.name, this.request)
-      .subscribe(response => this.response = response,
+      .subscribe(response => this.testResponse = response,
         error => this.errorMessage = <any>error)
   }
 

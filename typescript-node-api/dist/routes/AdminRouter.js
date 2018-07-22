@@ -76,6 +76,57 @@ class AdminRouter {
             res.send(result);
         });
     }
+    testService(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let serviceName = req.params.name;
+            try {
+                var requestData = yield this.getRequest(req);
+                var processInfo = yield ServiceManagerFactory_1.ServiceManagerFactory.createServiceManager().getResponse(serviceName, requestData);
+                if (processInfo === undefined) {
+                    res.send({
+                        status: 404
+                    });
+                }
+                else {
+                    res.send({
+                        status: 200,
+                        response: processInfo.response,
+                        matches: processInfo.matches
+                    });
+                }
+            }
+            catch (error) {
+                debug('error:' + error);
+                res.send({
+                    status: 500
+                });
+            }
+        });
+    }
+    getRequest(req) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve, reject) => {
+                var requestData = JSON.stringify(req.body);
+                if (requestData !== undefined && requestData.length > 2) {
+                    resolve(JSON.stringify(requestData));
+                }
+                else {
+                    requestData = '';
+                    req.on('data', chunk => {
+                        requestData += chunk;
+                    });
+                    req.on('end', (err, data) => {
+                        if (err) {
+                            reject(err);
+                        }
+                        else {
+                            resolve(requestData);
+                        }
+                    });
+                }
+            });
+        });
+    }
     /**
      * Take each handler, and attach to one of the Express.Router's
      * endpoints.
@@ -86,6 +137,9 @@ class AdminRouter {
         this.router.get('/:name/processedrequests', this.getProcessedRequests);
         this.router.delete('/:name/processedrequests', this.deleteProcessedRequests);
         this.router.get('/:name/maps/:mapName', this.getMapDetails);
+        this.router.post('/:name/test', (req, resp) => __awaiter(this, void 0, void 0, function* () {
+            yield this.testService(req, resp);
+        }));
     }
 }
 exports.AdminRouter = AdminRouter;
