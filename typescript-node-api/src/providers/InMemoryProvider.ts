@@ -102,7 +102,13 @@ export class InMemoryProvider implements ServiceManager {
     public async getProcessedRequests(name: string): Promise<ProcessedRequest[]> {
         debug('getProcessedRequests.enter')
         return new Promise<ProcessedRequest[]>((resolve) => {
-            resolve(LoggerIntance.getInstance().getLogs());
+            var counter = 0
+            var logs = LoggerIntance.getInstance().getLogs();
+            logs.forEach(l => {
+                counter++;
+                l.id = counter.toString()
+            })
+            resolve(logs);
         });
     }
 

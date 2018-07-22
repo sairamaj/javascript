@@ -62,13 +62,12 @@ export class ProcessLogFileManager {
         });
     }
 
-    private writeLogSync(processRequest: ProcessedRequest) {
+    private writeLogSync(processRequest: ProcessedRequest){
         debug('writing logs')
         var logDirectory = this.getLogDirectory()
         debug('logDirectory:' + logDirectory)
         if (!fs.existsSync(logDirectory)) {
             debug('log directory ' + logDirectory + ' does not exists and hence not writing')
-            return
         }
 
         debug('checking for available log file name.')
@@ -160,7 +159,9 @@ export class ProcessLogFileManager {
             }
         });
 
-        return new ProcessedRequest(date, 0, request, response, matches);
+        var processedRequest = new ProcessedRequest(date, 0, request, response, matches);
+        processedRequest.id = file;
+        return processedRequest;
     }
 
 }

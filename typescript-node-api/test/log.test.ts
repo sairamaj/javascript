@@ -23,7 +23,13 @@ describe('logs', () => {
                                 expect(res.status).to.equal(200);
                                 expect(res).to.be.json;
                                 expect(res.body).to.be.an('array');
+                                console.log('previous count:' + prevLogCount)
                                 expect(res.body).to.have.length(prevLogCount + 1);
+
+                                let logs = res.body
+                                logs.forEach(l => {
+                                    expect(l.id).to.be.not.empty
+                                })
                             })
                     });
             });
