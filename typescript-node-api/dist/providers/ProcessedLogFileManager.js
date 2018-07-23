@@ -47,6 +47,24 @@ class ProcessLogFileManager {
             });
         });
     }
+    getLog(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve, reject) => {
+                try {
+                    let logFile = this.getLogDirectory() + path.sep + id;
+                    if (fs.existsSync(logFile)) {
+                        resolve(this.parseLogFileSync(logFile));
+                    }
+                    else {
+                        resolve(undefined);
+                    }
+                }
+                catch (error) {
+                    reject(error);
+                }
+            });
+        });
+    }
     clearLogs() {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve, reject) => {
@@ -84,7 +102,6 @@ class ProcessLogFileManager {
         debug('logDirectory:' + logDirectory);
         if (!fs.existsSync(logDirectory)) {
             debug('log directory ' + logDirectory + ' does not exists and hence not writing');
-            return;
         }
         debug('checking for available log file name.');
         var logFile = this.getAvailableLog(logDirectory);
@@ -169,7 +186,10 @@ class ProcessLogFileManager {
                 matchStarted = true;
             }
         });
-        return new ProcessedRequest_1.ProcessedRequest(date, 0, request, response, matches);
+        var processedRequest = new ProcessedRequest_1.ProcessedRequest(date, 0, request, response, matches);
+        // file comes with either '/' or with '\'
+        processedRequest.id = file.split(path.sep).slice(-1)[0].split('/').slice(-1)[0];
+        return processedRequest;
     }
 }
 exports.ProcessLogFileManager = ProcessLogFileManager;

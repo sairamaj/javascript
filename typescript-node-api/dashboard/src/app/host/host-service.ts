@@ -12,6 +12,7 @@ import { hostResponseData } from './hostResponseData';
 import { MapDetail } from '../models/MapDetail';
 import { ServedRequests } from './ServedRequest';
 import { Service } from '../models/Service';
+import { ProcessedRequest } from '../models/ProcessedRequest';
 
 
 @Injectable()
@@ -71,16 +72,16 @@ export class HostService {
             catchError(this.handleError), );
     }
 
-    getLastRequests(hostName): Observable<ServedRequests[]> {
-        const servedRequestUrl = this.Configuration.getServedRequests(hostName);
-        return this._http.get<ServedRequests[]>(servedRequestUrl).pipe(
+    getLastRequests(hostName): Observable<ProcessedRequest[]> {
+        const servedRequestUrl = this.Configuration.getProcessedRequests(hostName);
+        return this._http.get<ProcessedRequest[]>(servedRequestUrl).pipe(
             tap(data => console.log('getLastRequests:')),
             catchError(this.handleError), );
     }
 
-    getServedRequest(hostName, fileName): Observable<ServedRequests> {
-        const servedRequestUrl = this.Configuration.getServedRequest(hostName, fileName);
-        return this._http.get<ServedRequests>(servedRequestUrl).pipe(
+    getProcessRequest(serviceName, id): Observable<ProcessedRequest> {
+        const servedRequestUrl = this.Configuration.getProcessedRequest(serviceName, id);
+        return this._http.get<ProcessedRequest>(servedRequestUrl).pipe(
             tap(data => console.log('getLastRequests:')),
             catchError(this.handleError), );
     }

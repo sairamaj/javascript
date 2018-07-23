@@ -103,8 +103,34 @@ class InMemoryProvider {
         return __awaiter(this, void 0, void 0, function* () {
             debug('getProcessedRequests.enter');
             return new Promise((resolve) => {
-                resolve(LoggerIntance.getInstance().getLogs());
+                var counter = 0;
+                var logs = LoggerIntance.getInstance().getLogs();
+                logs.forEach(l => {
+                    counter++;
+                    l.id = counter.toString();
+                });
+                resolve(logs);
             });
+        });
+    }
+    getProcessedRequest(name, id) {
+        debug('enter getProcessedRequest: ' + id);
+        return new Promise((resolve, reject) => {
+            var logs = LoggerIntance.getInstance().getLogs();
+            debug('logs length' + logs.length);
+            try {
+                let index = +id - 1;
+                if (logs.length >= index) {
+                    debug('returning log');
+                    resolve(logs[index]);
+                }
+                else {
+                    resolve(undefined);
+                }
+            }
+            catch (error) {
+                reject(error);
+            }
         });
     }
     clearProcessedRequests(name) {

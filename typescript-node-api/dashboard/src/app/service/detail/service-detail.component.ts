@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IResponseMap } from '../../host/responsemap';
 import { HostService } from '../../host/host-service';
 import { Service } from '../../models/Service';
+import { Config } from '../../host/Configuration';
 
 @Component({
   selector: 'app-host.detail',
@@ -41,7 +42,8 @@ export class ServiceDetailComponent implements OnInit {
 
 
   onLastServedRequests(): void {
-    this._router.navigate(['hosts/' + this.name + '/servedrequests']);
-
+    let config = new Config();
+    console.log(config.getProcessedRequests(this.name))
+    this._router.navigate(['services/' + this.name + '/processedrequests']);
   }
 } 

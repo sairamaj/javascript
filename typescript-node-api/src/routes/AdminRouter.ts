@@ -48,6 +48,25 @@ export class AdminRouter {
     res.send(processedRequests);
   }
 
+
+  public async getProcessedRequestById(req: Request, res: Response) {
+    let name = req.params.name;
+    let id = req.params.id;
+
+    try {
+      var processedRequest = await ServiceManagerFactory.createServiceManager().getProcessedRequest(name, id);
+      if (processedRequest !== undefined) {
+        res.status(200).send(processedRequest)
+      } else {
+        console.log('returning 404')
+        res.status(404).send({})
+      }
+    } catch (error) {
+      res.status(500).send(error)
+    }
+  }
+
+
   public async deleteProcessedRequests(req: Request, res: Response) {
     let name = req.params.name;
     var result = await ServiceManagerFactory.createServiceManager().clearProcessedRequests(name);
@@ -122,6 +141,7 @@ export class AdminRouter {
     this.router.get('/', this.getAll);
     this.router.get('/:name', this.getOne)
     this.router.get('/:name/processedrequests', this.getProcessedRequests)
+    this.router.get('/:name/processedrequests/:id', this.getProcessedRequestById)
     this.router.delete('/:name/processedrequests', this.deleteProcessedRequests)
     this.router.get('/:name/maps/:mapName', this.getMapDetails)
 

@@ -119,6 +119,10 @@ class MongoDbProvider {
             return results;
         });
     }
+    getProcessedRequest(name, id) {
+        return new Promise((resolve, reject) => {
+        });
+    }
     clearProcessedRequests(name) {
         return __awaiter(this, void 0, void 0, function* () {
             yield LogRequestDbSchema.collection.remove({

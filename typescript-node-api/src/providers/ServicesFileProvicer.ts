@@ -68,6 +68,10 @@ export class ServicesFileProvider implements ServiceManager {
         return await new ProcessLogFileManager(name).getLogs();
     }
 
+    public async getProcessedRequest(name: string, id: string): Promise<ProcessedRequest>{
+        return await new ProcessLogFileManager(name).getLog(id)
+    }
+
     public async clearProcessedRequests(name: string): Promise<boolean> {
         await new ProcessLogFileManager(name).clearLogs();
         return true;

@@ -10,9 +10,10 @@ import { HostDetailResponseComponent } from './host/host-detail-response.compone
 import { HostDetailRequestComponent } from './host/host-detail-request.component';
 import { ServiceTestComponent } from './service/test/service-test.component';
 import { ServiceEditResponseComponent } from './service/edit/service-edit-response.component';
-import { HostServedrequestsComponent } from './host/host-servedrequests/host-servedrequests.component';
-import { HostViewServedRequestComponent } from './host/host-viewservedrequest/host-viewservedrequest.component';
 import { XmlPipe } from './XmlPipe';
+import { ServiceProcessedRequestComponent } from './service/processedrequests/service-processedrequests.component';
+import { ServiceViewProcessedRequestComponent } from './service/processedrequests/service-view-processedrequest/service-view-processedrequest.component';
+
 
 @NgModule({
   declarations: [
@@ -23,8 +24,8 @@ import { XmlPipe } from './XmlPipe';
     HostDetailRequestComponent,
     ServiceTestComponent,
     ServiceEditResponseComponent,
-    HostServedrequestsComponent,
-    HostViewServedRequestComponent,
+    ServiceProcessedRequestComponent,
+    ServiceViewProcessedRequestComponent,
     XmlPipe
   ],
   imports: [
@@ -39,8 +40,8 @@ import { XmlPipe } from './XmlPipe';
       { path: 'services/:name', component: ServiceDetailComponent },
       { path: 'hosts/:name/details/response/:file', component: HostDetailResponseComponent },
       { path: 'hosts/:name/details/request/:file', component: HostDetailRequestComponent },
-      { path: 'hosts/:name/servedrequests', component: HostServedrequestsComponent },
-      { path: 'hosts/:name/servedrequests/:file', component: HostViewServedRequestComponent },
+      { path: 'services/:name/processedrequests', component: ServiceProcessedRequestComponent },
+      { path: 'services/:name/processedrequests/:id', component: ServiceViewProcessedRequestComponent },
       { path: '', component: ServiceListComponent },
       { path: '*', component: ServiceListComponent },
     ])

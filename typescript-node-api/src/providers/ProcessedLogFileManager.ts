@@ -37,7 +37,23 @@ export class ProcessLogFileManager {
         });
     }
 
-    public async clearLogs(){
+    public async getLog(id: string): Promise<ProcessedRequest> {
+        return new Promise<ProcessedRequest>((resolve, reject) => {
+            try {
+                let logFile = this.getLogDirectory() + path.sep + id
+                if (fs.existsSync(logFile)) {
+                    resolve(this.parseLogFileSync(logFile));
+                } else {
+                    resolve(undefined)
+                }
+
+            } catch (error) {
+                reject(error)
+            }
+        });
+    }
+
+    public async clearLogs() {
         return new Promise<void>((resolve, reject) => {
             try {
                 var searchPath = this.getLogDirectory() + '/*.log'
@@ -62,7 +78,7 @@ export class ProcessLogFileManager {
         });
     }
 
-    private writeLogSync(processRequest: ProcessedRequest){
+    private writeLogSync(processRequest: ProcessedRequest) {
         debug('writing logs')
         var logDirectory = this.getLogDirectory()
         debug('logDirectory:' + logDirectory)
@@ -160,7 +176,8 @@ export class ProcessLogFileManager {
         });
 
         var processedRequest = new ProcessedRequest(date, 0, request, response, matches);
-        processedRequest.id = file;
+        // file comes with either '/' or with '\'
+        processedRequest.id = file.split(path.sep).slice(-1)[0].split('/').slice(-1)[0];
         return processedRequest;
     }
 

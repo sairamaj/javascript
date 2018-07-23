@@ -31,10 +31,10 @@ export class MongoDbProvider implements ServiceManager {
         return undefined;
     }
 
-    public async getMapDetail(name: string, mapName: string) : Promise<MapDetail>{
+    public async getMapDetail(name: string, mapName: string): Promise<MapDetail> {
         return null;
     }
-    
+
     public async getResponse(name: string, request: string): Promise<ProcessInfo> {
         debug('enter getResponse: ' + name)
         var service = await this.getService(name);
@@ -115,6 +115,11 @@ export class MongoDbProvider implements ServiceManager {
         });
 
         return results;
+    }
+
+    public getProcessedRequest(name: string, id: string): Promise<ProcessedRequest> {
+        return new Promise<ProcessedRequest>((resolve, reject) => {
+        });
     }
 
     public async clearProcessedRequests(name: string): Promise<boolean> {

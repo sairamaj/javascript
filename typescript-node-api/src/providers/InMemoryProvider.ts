@@ -112,6 +112,25 @@ export class InMemoryProvider implements ServiceManager {
         });
     }
 
+    public getProcessedRequest(name: string, id: string): Promise<ProcessedRequest> {
+        debug('enter getProcessedRequest: ' + id)
+        return new Promise<ProcessedRequest>((resolve, reject) => {
+            var logs = LoggerIntance.getInstance().getLogs();
+            debug('logs length' + logs.length)
+            try {
+                let index = +id -1
+                if (logs.length >= index) {
+                    debug('returning log')
+                    resolve(logs[index])
+                }else{
+                    resolve(undefined)
+                }
+            } catch (error) {
+                reject(error)                
+            }
+        });
+    }
+
     public async clearProcessedRequests(name: string): Promise<boolean> {
         return new Promise<boolean>((resolve) => {
             LoggerIntance.getInstance().clear();

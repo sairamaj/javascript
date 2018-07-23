@@ -73,6 +73,11 @@ class ServicesFileProvider {
             return yield new ProcessedLogFileManager_1.ProcessLogFileManager(name).getLogs();
         });
     }
+    getProcessedRequest(name, id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield new ProcessedLogFileManager_1.ProcessLogFileManager(name).getLog(id);
+        });
+    }
     clearProcessedRequests(name) {
         return __awaiter(this, void 0, void 0, function* () {
             yield new ProcessedLogFileManager_1.ProcessLogFileManager(name).clearLogs();

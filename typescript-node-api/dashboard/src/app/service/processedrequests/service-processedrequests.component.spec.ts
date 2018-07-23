@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HostServedrequestsComponent } from './host-servedrequests.component';
+import { HostServedrequestsComponent } from './service-processedrequests.component';
 
 describe('HostLastrequestsComponent', () => {
   let component: HostServedrequestsComponent;
