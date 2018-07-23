@@ -70,6 +70,7 @@ class AdminRouter {
                 }
             }
             catch (error) {
+                debug('error:' + error);
                 res.status(500).send(error);
             }
         });
@@ -91,8 +92,19 @@ class AdminRouter {
             debug('enter getMapDetail.');
             let serviceName = req.params.name;
             let mapName = req.params.mapName;
-            var result = yield ServiceManagerFactory_1.ServiceManagerFactory.createServiceManager().getMapDetail(serviceName, mapName);
-            res.send(result);
+            try {
+                var result = yield ServiceManagerFactory_1.ServiceManagerFactory.createServiceManager().getMapDetail(serviceName, mapName);
+                if (result === undefined) {
+                    res.status(404).send({});
+                }
+                else {
+                    res.send(result);
+                }
+            }
+            catch (error) {
+                debug('getMapDetail error:' + error);
+                res.status(500).send(error);
+            }
         });
     }
     testService(req, res) {

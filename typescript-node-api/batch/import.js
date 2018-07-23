@@ -41,8 +41,10 @@ var fs = require("fs");
 var mongoose = require("mongoose");
 var ServiceSchema_1 = require("../src/model/ServiceSchema");
 var ResponseSchema_1 = require("../src/model/ResponseSchema");
+var RequestSchema_1 = require("../src/model/RequestSchema");
 var ServiceDbSchema = mongoose.model('services', ServiceSchema_1.ServiceSchema);
 var ResponseDbSchema = mongoose.model('responses', ResponseSchema_1.ResponseSchema);
+var RequestDbSchema = mongoose.model('requests', RequestSchema_1.RequestSchema);
 var ServiceConfigMap = /** @class */ (function () {
     function ServiceConfigMap(name, matches) {
         this.name = name;
@@ -60,10 +62,9 @@ var Service = /** @class */ (function () {
     return Service;
 }());
 var ImportService = /** @class */ (function () {
-    function ImportService(path) {
+    function ImportService(path, mongoUrl) {
         this.path = path;
-        // public mongoUrl: string = 'mongodb://localhost:27017/simulator';
-        this.mongoUrl = 'mondbconnectionhere.';
+        this.mongoUrl = mongoUrl;
         this.mongoSetup();
     }
     ImportService.prototype.mongoSetup = function () {
@@ -114,6 +115,28 @@ var ImportService = /** @class */ (function () {
                                 return [2 /*return*/];
                             });
                         }); });
+                        console.log('inserting requests...');
+                        services.forEach(function (s) { return __awaiter(_this, void 0, void 0, function () {
+                            var _this = this;
+                            return __generator(this, function (_a) {
+                                s.config.forEach(function (c) { return __awaiter(_this, void 0, void 0, function () {
+                                    var requestNameKey, requestFileName;
+                                    return __generator(this, function (_a) {
+                                        switch (_a.label) {
+                                            case 0:
+                                                requestNameKey = s.name + "_request_" + c.name;
+                                                requestFileName = s.path + path.sep + 'requests' + path.sep + c.name + '.xml';
+                                                console.log(requestFileName);
+                                                return [4 /*yield*/, this.insertRequest(requestNameKey, requestFileName)];
+                                            case 1:
+                                                _a.sent();
+                                                return [2 /*return*/];
+                                        }
+                                    });
+                                }); });
+                                return [2 /*return*/];
+                            });
+                        }); });
                         return [2 /*return*/];
                 }
             });
@@ -136,6 +159,14 @@ var ImportService = /** @class */ (function () {
                     }
                     else {
                         console.log('clear responses success:');
+                    }
+                });
+                RequestDbSchema.collection.remove({}, function (err, result) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    else {
+                        console.log('clear requests success:');
                     }
                 });
                 return [2 /*return*/];
@@ -177,28 +208,72 @@ var ImportService = /** @class */ (function () {
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, fs.readFile(fileName, 'utf-8', function (err, data) { return __awaiter(_this, void 0, void 0, function () {
-                            return __generator(this, function (_a) {
-                                switch (_a.label) {
-                                    case 0:
-                                        if (!err) return [3 /*break*/, 1];
-                                        console.log('err:' + err);
-                                        return [3 /*break*/, 3];
-                                    case 1: return [4 /*yield*/, ResponseDbSchema.collection.insertOne({ name: name, response: data }, function (err, result) {
-                                            if (err) {
-                                                console.log('error for:' + name);
-                                            }
-                                            else {
-                                                console.log('success for:' + name);
-                                            }
-                                        })];
-                                    case 2:
-                                        _a.sent();
-                                        _a.label = 3;
-                                    case 3: return [2 /*return*/];
-                                }
-                            });
-                        }); })];
+                    case 0:
+                        if (!fs.existsSync(fileName)) {
+                            return [2 /*return*/];
+                        }
+                        return [4 /*yield*/, fs.readFile(fileName, 'utf-8', function (err, data) { return __awaiter(_this, void 0, void 0, function () {
+                                return __generator(this, function (_a) {
+                                    switch (_a.label) {
+                                        case 0:
+                                            if (!err) return [3 /*break*/, 1];
+                                            console.log('err:' + err);
+                                            return [3 /*break*/, 3];
+                                        case 1: return [4 /*yield*/, ResponseDbSchema.collection.insertOne({ name: name, response: data }, function (err, result) {
+                                                if (err) {
+                                                    console.log('error for:' + name);
+                                                }
+                                                else {
+                                                    console.log('success for:' + name);
+                                                }
+                                            })];
+                                        case 2:
+                                            _a.sent();
+                                            _a.label = 3;
+                                        case 3: return [2 /*return*/];
+                                    }
+                                });
+                            }); })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    ImportService.prototype.insertRequest = function (name, fileName) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!fs.existsSync(fileName)) {
+                            return [2 /*return*/];
+                        }
+                        return [4 /*yield*/, fs.readFile(fileName, 'utf-8', function (err, data) { return __awaiter(_this, void 0, void 0, function () {
+                                return __generator(this, function (_a) {
+                                    switch (_a.label) {
+                                        case 0:
+                                            if (!err) return [3 /*break*/, 1];
+                                            console.log('err:' + err);
+                                            return [3 /*break*/, 3];
+                                        case 1:
+                                            console.log('request insert:' + name);
+                                            return [4 /*yield*/, RequestDbSchema.collection.insertOne({ name: name, request: data }, function (err, result) {
+                                                    if (err) {
+                                                        console.log('error for:' + name);
+                                                    }
+                                                    else {
+                                                        console.log('success for:' + name);
+                                                    }
+                                                })];
+                                        case 2:
+                                            _a.sent();
+                                            _a.label = 3;
+                                        case 3: return [2 /*return*/];
+                                    }
+                                });
+                            }); })];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];
@@ -215,9 +290,14 @@ if (process.argv.length < 3) {
     console.error('data path required.');
     process.exit(-1);
 }
+if (process.argv.length < 4) {
+    console.error('mongo conection string required.');
+    process.exit(-1);
+}
 var dataPath = process.argv[2];
+var mongodb = process.argv[3];
 console.log('importing:' + dataPath);
-var importService = new ImportService(dataPath);
+var importService = new ImportService(dataPath, mongodb);
 function clearAndImport() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {

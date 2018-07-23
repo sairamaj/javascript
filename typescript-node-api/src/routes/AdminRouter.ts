@@ -62,6 +62,7 @@ export class AdminRouter {
         res.status(404).send({})
       }
     } catch (error) {
+      debug('error:' + error)
       res.status(500).send(error)
     }
   }
@@ -82,8 +83,17 @@ export class AdminRouter {
     let serviceName = req.params.name;
     let mapName = req.params.mapName;
 
-    var result = await ServiceManagerFactory.createServiceManager().getMapDetail(serviceName, mapName)
-    res.send(result)
+    try {
+      var result = await ServiceManagerFactory.createServiceManager().getMapDetail(serviceName, mapName)
+      if (result === undefined) {
+        res.status(404).send({})
+      } else {
+        res.send(result)
+      }
+    } catch (error) {
+      debug('getMapDetail error:' + error)
+      res.status(500).send(error)
+    }
   }
 
   public async testService(req: Request, res: Response) {

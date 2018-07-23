@@ -35,7 +35,7 @@ describe('logs', () => {
             });
     });
 
-    it.only('should get log', () => {
+    it('should get log', () => {
         return chai.request(app).post('/service1').send(' this is request_1 data')
             .then(res => {
                 expect(res.status).to.equal(200);
