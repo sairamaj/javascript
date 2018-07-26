@@ -3,6 +3,7 @@ import { Service } from '../model/Service';
 import { ProcessInfo } from '../model/ProcessInfo';
 import { resolve } from 'path';
 import { ProcessedRequest } from '../model/ProcessedRequest';
+import { MapDetail } from '../model/MapDetail';
 const debug = require('debug')('inmemoryprovider')
 
 class LoggerIntance {
@@ -46,6 +47,23 @@ export class InMemoryProvider implements ServiceManager {
         return services.find(h => h.name == name)
     }
 
+    public async getMapDetail(name: string, mapName: string): Promise<MapDetail> {
+        return new Promise<MapDetail>((resolve) => {
+            var service = this.TestData.find(s => s.name === name);
+            if (service === undefined) {
+                resolve(undefined)
+            }
+
+            var mapInfo = service.config.find(c => c.name === mapName)
+            if (mapInfo === undefined) {
+                resolve(undefined)
+            }
+
+            var mapDetail = new MapDetail(mapInfo.name, mapInfo.request, mapInfo.response, mapInfo.matches)
+            resolve(mapDetail)
+        });
+    }
+
     public async getResponse(name: string, request: string): Promise<ProcessInfo> {
         var service = await this.getService(name);
         if (service === undefined || service.config === undefined) {
@@ -68,7 +86,7 @@ export class InMemoryProvider implements ServiceManager {
         debug('foundConfig:' + JSON.stringify(foundConfig));
 
         var processInfo = new ProcessInfo(request);
-        processInfo.matches = [];
+        processInfo.matches = foundConfig.matches;
         processInfo.response = foundConfig.response;
         return processInfo;
     }
@@ -84,7 +102,32 @@ export class InMemoryProvider implements ServiceManager {
     public async getProcessedRequests(name: string): Promise<ProcessedRequest[]> {
         debug('getProcessedRequests.enter')
         return new Promise<ProcessedRequest[]>((resolve) => {
-            resolve(LoggerIntance.getInstance().getLogs());
+            var counter = 0
+            var logs = LoggerIntance.getInstance().getLogs();
+            logs.forEach(l => {
+                counter++;
+                l.id = counter.toString()
+            })
+            resolve(logs);
+        });
+    }
+
+    public getProcessedRequest(name: string, id: string): Promise<ProcessedRequest> {
+        debug('enter getProcessedRequest: ' + id)
+        return new Promise<ProcessedRequest>((resolve, reject) => {
+            var logs = LoggerIntance.getInstance().getLogs();
+            debug('logs length' + logs.length)
+            try {
+                let index = +id -1
+                if (logs.length >= index) {
+                    debug('returning log')
+                    resolve(logs[index])
+                }else{
+                    resolve(undefined)
+                }
+            } catch (error) {
+                reject(error)                
+            }
         });
     }
 

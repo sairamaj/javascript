@@ -10,13 +10,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const ServiceSchema_1 = require("../model/ServiceSchema");
 const ResponseSchema_1 = require("../model/ResponseSchema");
+const RequestSchema_1 = require("../model/RequestSchema");
 const LogRequestSchema_1 = require("../model/LogRequestSchema");
 const ProcessInfo_1 = require("../model/ProcessInfo");
 const mongoose = require("mongoose");
 const ProcessedRequest_1 = require("../model/ProcessedRequest");
+const MapDetail_1 = require("../model/MapDetail");
 const debug = require('debug')('mongodbprovider');
 const ServiceDbSchema = mongoose.model('services', ServiceSchema_1.ServiceSchema);
 const ResponseDbSchema = mongoose.model('responses', ResponseSchema_1.ResponseSchema);
+const RequestDbSchema = mongoose.model('requests', RequestSchema_1.RequestSchema);
 const LogRequestDbSchema = mongoose.model('logs', LogRequestSchema_1.LogRequestSchema);
 class MongoDbProvider {
     getServices() {
@@ -34,6 +37,28 @@ class MongoDbProvider {
             }
             debug('service ' + name + ' found');
             return undefined;
+        });
+    }
+    getMapDetail(name, mapName) {
+        return __awaiter(this, void 0, void 0, function* () {
+            debug('enter getMapDetail');
+            var service = yield this.getService(name);
+            if (service === undefined) {
+                debug('warn service ' + name + ' not found');
+                return undefined;
+            }
+            if (service.config === undefined) {
+                debug('warn config for service ' + name + ' not found');
+                return undefined;
+            }
+            var foundConfig = service.config.find(c => c.name === mapName);
+            if (foundConfig === undefined) {
+                debug('warn match not found for service ' + name + ' for mapName ' + mapName);
+                return undefined;
+            }
+            var responseData = yield this.getResponseData(name, mapName);
+            var requestData = yield this.getRequestData(name, mapName);
+            return new MapDetail_1.MapDetail(mapName, requestData, responseData, foundConfig.matches);
         });
     }
     getResponse(name, request) {
@@ -109,9 +134,22 @@ class MongoDbProvider {
                 name: name
             }).toArray();
             response.forEach(r => {
-                results.push(new ProcessedRequest_1.ProcessedRequest(r.date, r.status, r.request, r.response, r.matches));
+                var processRequest = new ProcessedRequest_1.ProcessedRequest(r.date, r.status, r.request, r.response, r.matches);
+                processRequest.id = r._id;
+                results.push(processRequest);
             });
             return results;
+        });
+    }
+    getProcessedRequest(name, id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var processedRequest = yield LogRequestDbSchema.findById(id);
+            if (processedRequest !== undefined) {
+                var processRequest = new ProcessedRequest_1.ProcessedRequest(processedRequest.date, processedRequest.status, processedRequest.request, processedRequest.response, processedRequest.matches);
+                processRequest.id = id;
+                return processRequest;
+            }
+            return undefined;
         });
     }
     clearProcessedRequests(name) {
@@ -120,6 +158,30 @@ class MongoDbProvider {
                 name: name
             });
             return true;
+        });
+    }
+    getResponseData(name, mapName) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var responseNameKey = name + "_response_" + mapName;
+            var responses = yield ResponseDbSchema.find({
+                name: responseNameKey
+            });
+            if (responses.length > 0) {
+                return responses[0].response;
+            }
+            return undefined;
+        });
+    }
+    getRequestData(name, mapName) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var requestNameKey = name + "_request_" + mapName;
+            var requests = yield RequestDbSchema.find({
+                name: requestNameKey
+            });
+            if (requests.length > 0) {
+                return requests[0].request;
+            }
+            return undefined;
         });
     }
 }

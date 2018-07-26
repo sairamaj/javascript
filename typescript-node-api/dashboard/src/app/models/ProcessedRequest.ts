@@ -1,11 +1,12 @@
 export class ProcessedRequest {
-    public id: string
+    public dateString:string
     constructor(
+        public id: string,
         public date: Date,
-        public status: number,
+        public matches: string,
+        public file: string,
         public request: string,
         public response: string,
-        public matches: string[]
     ) {
     }
 }

@@ -4,10 +4,12 @@ import * as fs from 'fs';
 import * as mongoose from "mongoose";
 import { ServiceSchema } from '../src/model/ServiceSchema';
 import { ResponseSchema } from '../src/model/ResponseSchema';
+import { RequestSchema } from '../src/model/RequestSchema';
 import { resolve } from 'url';
 
 const ServiceDbSchema = mongoose.model('services', ServiceSchema);
 const ResponseDbSchema = mongoose.model('responses', ResponseSchema);
+const RequestDbSchema = mongoose.model('requests', RequestSchema);
 
 export class ServiceConfigMap {
     constructor(
@@ -24,9 +26,7 @@ class Service {
 
 
 class ImportService {
-    // public mongoUrl: string = 'mongodb://localhost:27017/simulator';
-    public mongoUrl: string = 'mondbconnectionhere.'
-    constructor(public path: string) {
+    constructor(public path: string, public mongoUrl: string) {
         this.mongoSetup();
     }
 
@@ -35,7 +35,7 @@ class ImportService {
 
         console.log('connecting...')
         mongoose.connect(this.mongoUrl, { useNewUrlParser: true });
-        
+
         console.log('connected...')
     }
 
@@ -60,6 +60,16 @@ class ImportService {
                 await this.insertResponse(responseNameKey, responseFileName);
             });
         });
+
+        console.log('inserting requests...')
+        services.forEach(async s => {
+            s.config.forEach(async c => {
+                var requestNameKey = s.name + "_request_" + c.name;
+                var requestFileName = s.path + path.sep + 'requests' + path.sep + c.name + '.xml'
+                console.log(requestFileName)
+                await this.insertRequest(requestNameKey, requestFileName);
+            });
+        });
     }
 
     public async clear(): Promise<void> {
@@ -75,6 +85,13 @@ class ImportService {
                 console.log(err)
             } else {
                 console.log('clear responses success:');
+            }
+        });
+        RequestDbSchema.collection.remove({}, (err, result) => {
+            if (err) {
+                console.log(err)
+            } else {
+                console.log('clear requests success:');
             }
         });
     }
@@ -108,6 +125,9 @@ class ImportService {
 
 
     private async insertResponse(name: string, fileName: string) {
+        if(!fs.existsSync(fileName)){
+            return
+        }
         await fs.readFile(fileName, 'utf-8', async (err, data) => {
             if (err) {
                 console.log('err:' + err)
@@ -122,6 +142,27 @@ class ImportService {
             }
         });
     }
+
+    private async insertRequest(name: string, fileName: string) {
+        if(!fs.existsSync(fileName)){
+            return
+        }
+        await fs.readFile(fileName, 'utf-8', async (err, data) => {
+            if (err) {
+                console.log('err:' + err)
+            } else {
+                console.log('request insert:' + name)
+                await RequestDbSchema.collection.insertOne({ name: name, request: data }, (err, result) => {
+                    if (err) {
+                        console.log('error for:' + name);
+                    } else {
+                        console.log('success for:' + name);
+                    }
+                });
+            }
+        });
+    }
+
 }
 
 for (let j = 0; j < process.argv.length; j++) {
@@ -132,9 +173,15 @@ if (process.argv.length < 3) {
     process.exit(-1)
 }
 
+if (process.argv.length < 4) {
+    console.error('mongo conection string required.')
+    process.exit(-1)
+}
+
 var dataPath = process.argv[2]
+var mongodb = process.argv[3]
 console.log('importing:' + dataPath);
-var importService = new ImportService(dataPath);
+var importService = new ImportService(dataPath, mongodb);
 async function clearAndImport() {
     console.log('clearing...')
     await importService.clear();

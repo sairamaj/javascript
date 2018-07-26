@@ -12,7 +12,7 @@
     <table class='table'>
       <thead>
         <th>Date</th>
-        <th>File</th>
+        <th>Id</th>
       </thead>
 
       <tbody>
@@ -21,8 +21,8 @@
             {{ req.date | date:'dd/MM HH:mm'}}
           </td>
           <td>
-            <a [routerLink]="['/hosts/' + name + '/servedrequests/', req.file]">
-              {{req.file}}
+            <a [routerLink]="['/services/' + name + '/processedrequests/', req.id]">
+              {{req.id}}
             </a>
           </td>
         </tr>

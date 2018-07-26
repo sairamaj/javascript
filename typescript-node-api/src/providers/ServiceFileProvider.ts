@@ -4,6 +4,7 @@ import * as fs from 'fs';
 import { Service } from "../model/Service";
 import { ProcessInfo } from "../model/ProcessInfo";
 import { ProcessedRequest } from "../model/ProcessedRequest";
+import { MapDetail } from "../model/MapDetail";
 var debug = require('debug')('servicefileprovider')
 
 export class ServiceFileProvider {
@@ -17,6 +18,29 @@ export class ServiceFileProvider {
         }
 
         this.configMaps = JSON.parse(fs.readFileSync(mapFileName, 'utf-8'));
+    }
+
+    public async getMapDetail(mapName: string): Promise<MapDetail> {
+        return new Promise<MapDetail>((resolve, reject) => {
+            var foundMap = this.configMaps.find(m => m.name == mapName);
+            if (foundMap === undefined) {
+                resolve(undefined)
+            }
+
+            var response = ''
+            var responseFileName = this.getResponseFileName(foundMap.name)
+            if (fs.existsSync(responseFileName)) {
+                response = fs.readFileSync(responseFileName, 'utf-8')
+            }
+
+            var request = ''
+            var requestFileName = this.getRequestFileName(foundMap.name)
+            if (fs.existsSync(requestFileName)) {
+                request = fs.readFileSync(requestFileName, 'utf-8')
+            }
+
+            resolve(new MapDetail(foundMap.name, request, response, foundMap.matches));
+        });
     }
 
     public async getResponse(request: string): Promise<ProcessInfo> {
@@ -58,8 +82,11 @@ export class ServiceFileProvider {
         });
     }
 
-    public getConfigMap(): ServiceConfigMap {
-        return null;
+    public getConfigMap(): ServiceConfigMap[] {
+        let configFile = this.getConfigMapFile();
+        if( fs.existsSync(configFile) ){
+            return require(configFile);
+        }
     }
 
     public async logRequest(date: Date, status: number, processInfo: ProcessInfo): Promise<boolean> {
@@ -78,7 +105,7 @@ export class ServiceFileProvider {
         return new Promise<boolean>((resolve) => {
             resolve(true);
         });
-    }    
+    }
 
     getDataDirectory(): string {
         return process.cwd() + path.sep + 'data';
@@ -92,9 +119,16 @@ export class ServiceFileProvider {
         return this.getDataDirectory() + path.sep + this.name + path.sep + 'responses';
     }
 
+    getServiceRequestDirectory(): string {
+        return this.getDataDirectory() + path.sep + this.name + path.sep + 'requests';
+    }
 
     getResponseFileName(requestName: string): string {
         return this.getServiceResponseDirectory() + path.sep + requestName + '.xml';
+    }
+
+    getRequestFileName(requestName: string): string {
+        return this.getServiceRequestDirectory() + path.sep + requestName + '.xml';
     }
 
     getConfigMapDirectory(serviceName: string): string {
